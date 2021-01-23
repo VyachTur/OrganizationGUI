@@ -99,14 +99,20 @@ namespace OrganizationGUI {
 			deps1.Add(dep1);
 			deps1.Add(dep2);
 
-			organizationTree.ItemsSource = deps1;
-			
+			//organizationTree.ItemsSource = deps1;
+
 
 
 			// Вывод пробных департаментов
 			Department depMain = new Department("Главный департамент", workers, deps1);
 
 			Organization organization = new Organization("Организация", director, assDirector, deps1);
+
+			ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
+			orgs.Add(organization);
+
+
+			organizationTree.ItemsSource = orgs;
 
 
 			//MessageBox.Show(organization.ToString());

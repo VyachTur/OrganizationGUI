@@ -30,7 +30,7 @@ namespace OrganizationGUI.Classes
             Name = name;
 
             workers = new ObservableCollection<Worker>();
-            subDeparts = new ObservableCollection<Department>();
+            departs = new ObservableCollection<Department>();
 
             Id = ++Count_Dep;
         }
@@ -40,11 +40,11 @@ namespace OrganizationGUI.Classes
         /// </summary>
         /// <param name="name">Наименование департамента</param>
         /// <param name="workers">Работники департамента</param>
-        public Department(string name, ObservableCollection<Worker> workers, ObservableCollection<Department> subDeparts)
+        public Department(string name, ObservableCollection<Worker> workers, ObservableCollection<Department> departs)
         {
             Name = name;
             this.workers = workers;
-            this.subDeparts = subDeparts;
+            this.departs = departs;
 
             Id = ++Count_Dep;
         }
@@ -72,11 +72,14 @@ namespace OrganizationGUI.Classes
         /// </summary>
         public string Name { get; set; }
 
-        public ObservableCollection<Department> SubDeparts
+        /// <summary>
+        /// Возвращает коллекцию поддепартаментов
+        /// </summary>
+        public ObservableCollection<Department> Departs
 		{
             get
 			{
-                return subDeparts ?? new ObservableCollection<Department>();
+                return departs ?? new ObservableCollection<Department>();
 			}
 		}
 
@@ -100,7 +103,7 @@ namespace OrganizationGUI.Classes
         /// <summary>
         /// Количество "поддепартаментов" в департаменте
         /// </summary>
-        public static int CountSubDeparts
+        public static int CountDeparts
         {
             get
             {
@@ -113,14 +116,14 @@ namespace OrganizationGUI.Classes
 
         #region Methods
 
-        //private int countSubDeparts()
+        //private int countDeparts()
         //{
-        //    if (subDeparts != null)
+        //    if (Departs != null)
         //    {
-        //        foreach (var itemDep in subDeparts)
+        //        foreach (var itemDep in Departs)
         //        {
-        //            return subDeparts.Count 
-        //                + itemDep.countSubDeparts();
+        //            return Departs.Count 
+        //                + itemDep.countDeparts();
         //        }
         //    }
 
@@ -148,7 +151,7 @@ namespace OrganizationGUI.Classes
             return  $"| Идентификатор отдела: { Id } | " +
                     $"Название отдела: { Name } | " +
                     $"Количество сотрудников: { CountEmployees } | " +
-                    $"Количество поддепартаментов: { CountSubDeparts } |";
+                    $"Количество поддепартаментов: { CountDeparts } |";
         }
 
         #endregion // Methods
@@ -157,7 +160,7 @@ namespace OrganizationGUI.Classes
         #region Fields
 
         private ObservableCollection<Worker> workers;           // работники департамента
-        private ObservableCollection<Department> subDeparts;    // "поддепартаменты"
+        private ObservableCollection<Department> departs;    // "поддепартаменты"
 
         private static int Count_Dep = 0;                      // счетчик для идентификатора департамента
 

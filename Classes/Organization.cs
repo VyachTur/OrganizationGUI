@@ -63,6 +63,17 @@ namespace OrganizationGUI.Classes
         public AssociateDirector associateDirector { get; set; }
 
         /// <summary>
+        /// Возвращает коллекцию департаментов в организации
+        /// </summary>
+        public ObservableCollection<Department> Departs
+        {
+            get
+            {
+                return departments ?? new ObservableCollection<Department>();
+            }
+        }
+
+        /// <summary>
         /// Количество департаментов верхнего уровня
         /// </summary>
 		public int CountDepartments
@@ -86,8 +97,7 @@ namespace OrganizationGUI.Classes
             return $"Название организации: { Name } | " +
                     $"Имя директора: {director?.Name ?? String.Empty} {director?.LastName ?? String.Empty} | " +
                     $"Имя зама: {associateDirector?.Name ?? String.Empty} {associateDirector?.LastName ?? String.Empty} | " +
-                    $"Количество департаментов верхнего уровня: {CountDepartments} | " +
-                    $"Количество поддепартаментов: {Department.CountSubDeparts} ";
+                    $"Количество департаментов верхнего уровня: {CountDepartments} | ";
         }
 
         #endregion  // Methods
