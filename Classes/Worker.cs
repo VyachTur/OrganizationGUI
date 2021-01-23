@@ -32,14 +32,14 @@ namespace OrganizationGUI.Classes
         public abstract int Id { get; }
 
         /// <summary>
-        /// Количество лет работника
+        /// Возраст работника в годах
         /// </summary>
         public int Age
         {
             get
             {
                 int age = DateTime.Now.Year - BirthDate.Year;
-                if (BirthDate > DateTime.Now.AddYears(-age)) --age;
+                if (BirthDate > DateTime.Now.AddYears(-age)) --age; // для корректного вычисления полных лет
                 return age;
             }
         }
