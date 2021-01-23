@@ -36,7 +36,7 @@ namespace OrganizationGUI
 
             Debug.WriteLine(emps[0].Name);
 
-            //employeesTree.ItemsSource = emps;
+            employeesTree.ItemsSource = emps;
 
             Director director = Director.getInstance("Олег", "Важный", 1_000_000);
             AssociateDirector assDirector = AssociateDirector.getInstance("Игорь", "Секонд", 500_000);
