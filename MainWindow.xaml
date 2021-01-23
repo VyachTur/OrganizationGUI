@@ -44,6 +44,7 @@
 			</TreeView.ItemTemplate>
 		</TreeView>
 
+
 		<TextBlock Text="Информация о сотрудниках:" Grid.Row="1" Grid.Column="1"
 					  Margin="15 0 0 0"/>
 

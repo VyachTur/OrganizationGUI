@@ -100,12 +100,14 @@ namespace OrganizationGUI {
 			deps1.Add(dep2);
 
 			organizationTree.ItemsSource = deps1;
+			
 
 
 			// Вывод пробных департаментов
 			Department depMain = new Department("Главный департамент", workers, deps1);
 
 			Organization organization = new Organization("Организация", director, assDirector, deps1);
+
 
 			//MessageBox.Show(organization.ToString());
 			//MessageBox.Show(depMain.ToString());
