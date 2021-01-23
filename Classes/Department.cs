@@ -5,23 +5,27 @@ using System.Text;
 
 namespace OrganizationGUI.Classes
 {
-    /// <summary>
-    /// Департамент
-    /// </summary>
-    class Department
+	/// <summary>
+	/// Департамент
+	/// </summary>
+	class Department 
     {
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Конструктор по умолчанию
-        /// </summary>
-        public Department() { Id = ++Count_Dep; }
+		/// <summary>
+		/// Конструктор по умолчанию
+		/// </summary>
+		public Department() 
+        {
+		    Id = ++Count_Dep;
+            Name = String.Empty;
+		}
 
-        /// <summary>
-        /// Конструктор 1
-        /// </summary>
-        /// <param name="name"></param>
-        public Department(string name)
+		/// <summary>
+		/// Конструктор 1
+		/// </summary>
+		/// <param name="name">Наименование департамента</param>
+		public Department(string name)
         {
             Name = name;
 
@@ -34,8 +38,8 @@ namespace OrganizationGUI.Classes
         /// <summary>
         /// Конструктор 2.1
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="workers"></param>
+        /// <param name="name">Наименование департамента</param>
+        /// <param name="workers">Работники департамента</param>
         public Department(string name, ObservableCollection<Worker> workers, ObservableCollection<Department> subDeparts)
         {
             Name = name;
@@ -61,12 +65,20 @@ namespace OrganizationGUI.Classes
         /// <summary>
         /// Идентификатор департамента
         /// </summary>
-        public uint Id { get; }
+        public int Id { get; }
 
         /// <summary>
         /// Название департамента
         /// </summary>
         public string Name { get; set; }
+
+        public ObservableCollection<Department> SubDeparts
+		{
+            get
+			{
+                return subDeparts ?? new ObservableCollection<Department>();
+			}
+		}
 
         /// <summary>
         /// Количество рабочих в департаменте
@@ -88,13 +100,11 @@ namespace OrganizationGUI.Classes
         /// <summary>
         /// Количество "поддепартаментов" в департаменте
         /// </summary>
-        public uint CountSubDeparts
+        public static int CountSubDeparts
         {
             get
             {
                 return Count_Dep;
-                //return countSubDeparts();
-                //return subDeparts?.Count ?? 0;
             }
         }
 
@@ -123,7 +133,7 @@ namespace OrganizationGUI.Classes
         /// </summary>
         /// <param name="idEmpl">Идентификатор сотрудника отдела</param>
         /// <returns></returns>
-        //public Employee returnEmplAtId(uint idEmpl)
+        //public Employee returnEmplAtId(int idEmpl)
         //{
         //    return this.employees_Dep.Find((item) => item.Id == idEmpl);
         //}
@@ -149,7 +159,7 @@ namespace OrganizationGUI.Classes
         private ObservableCollection<Worker> workers;           // работники департамента
         private ObservableCollection<Department> subDeparts;    // "поддепартаменты"
 
-        private static uint Count_Dep = 0;                      // счетчик для идентификатора департамента
+        private static int Count_Dep = 0;                      // счетчик для идентификатора департамента
 
         #endregion // Fields
 

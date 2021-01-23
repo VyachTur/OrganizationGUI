@@ -24,6 +24,7 @@ namespace OrganizationGUI {
 		public MainWindow() {
 			InitializeComponent();
 
+
 			fillStructOg();
 		}
 
@@ -42,7 +43,7 @@ namespace OrganizationGUI {
 
 			//Debug.WriteLine(emps[0].Name);
 
-			employeesTree.ItemsSource = emps;
+			employeesList.ItemsSource = emps;
 
 			Director director = Director.getInstance("Олег", "Важный", 1_000_000);
 			AssociateDirector assDirector = AssociateDirector.getInstance("Игорь", "Секонд", 500_000);
@@ -57,29 +58,32 @@ namespace OrganizationGUI {
 			workers.Add(assDirector);
 
 			#region Проверка синглтона
-			// Проверка синглтонов Director и AssociateDirector
-			Director director1 = Director.getInstance("Олег1", "Важный1", 1_111_111);
-			AssociateDirector assDirector1 = AssociateDirector.getInstance("Игорь1", "Секонд1", 555_555);
-			Debug.WriteLine(director1);     // выведет инфу по director
-			Debug.WriteLine(assDirector1);  // выведет инфу по assDirector
-			#endregion
 
-			Department dep1111 = new Department("Департамент 1111", workers);
-			Department dep1211 = new Department("Департамент 1211", workers);
-			Department dep2111 = new Department("Департамент 2111", workers);
-			Department dep2211 = new Department("Департамент 2211", workers);
+			// Проверка синглтонов Director и AssociateDirector
+			//Director director1 = Director.getInstance("Олег1", "Важный1", 1_111_111);
+			//AssociateDirector assDirector1 = AssociateDirector.getInstance("Игорь1", "Секонд1", 555_555);
+			//Debug.WriteLine(director1);     // выведет инфу по director
+			//Debug.WriteLine(assDirector1);  // выведет инфу по assDirector
+
+			#endregion    // Проверка синглтона
+
+			Department dep111 = new Department("Департамент 111", workers);
+			Department dep121 = new Department("Департамент 121", workers);
+			Department dep211 = new Department("Департамент 211", workers);
+			Department dep221 = new Department("Департамент 221", workers);
 
 			ObservableCollection<Department> deps211 = new ObservableCollection<Department>();
 			ObservableCollection<Department> deps221 = new ObservableCollection<Department>();
-			deps211.Add(dep1111);
-			deps211.Add(dep1211);
-			deps221.Add(dep2111);
-			deps221.Add(dep2211);
+			
+			deps211.Add(dep111);
+			deps211.Add(dep121);
+			deps221.Add(dep211);
+			deps221.Add(dep221);
 
 			Department dep11 = new Department("Департамент 11", workers, deps211);
-			Department dep12 = new Department("Департамент 12", workers, deps221);
+			Department dep12 = new Department("Департамент 12", workers);
 			Department dep21 = new Department("Департамент 21", workers);
-			Department dep22 = new Department("Департамент 22", workers);
+			Department dep22 = new Department("Департамент 22", workers, deps221);
 
 			ObservableCollection<Department> deps21 = new ObservableCollection<Department>();
 			ObservableCollection<Department> deps22 = new ObservableCollection<Department>();
@@ -95,11 +99,16 @@ namespace OrganizationGUI {
 			deps1.Add(dep1);
 			deps1.Add(dep2);
 
+			organizationTree.ItemsSource = deps1;
+
 
 			// Вывод пробных департаментов
 			Department depMain = new Department("Главный департамент", workers, deps1);
 
-			MessageBox.Show(depMain.ToString());
+			Organization organization = new Organization("Организация", director, assDirector, deps1);
+
+			//MessageBox.Show(organization.ToString());
+			//MessageBox.Show(depMain.ToString());
 
 			//MessageBox.Show($"Всех сотрудников: { workers.Count }");
 
