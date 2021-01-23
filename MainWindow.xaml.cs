@@ -34,7 +34,7 @@ namespace OrganizationGUI
             emps.Add(new Employee("Петр", "Петров", "Программист", 100_000));
             emps.Add(new Employee("Федор", "Федоров", "Инженер", 90_000));
 
-            Debug.WriteLine(emps[0].Name);
+            //Debug.WriteLine(emps[0].Name);
 
             employeesTree.ItemsSource = emps;
 
