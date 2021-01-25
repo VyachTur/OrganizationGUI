@@ -29,14 +29,14 @@
 
 		<Menu Grid.ColumnSpan="2" FontSize="14">
 			<MenuItem Header="Файл">
-				<MenuItem Header="Загрузить информацию" ></MenuItem>
+				<MenuItem Header="Загрузить" ></MenuItem>
 			</MenuItem>
 		</Menu>
 
-		<TextBlock Text="Структура организации:" Grid.Row="1"/>
+		<TextBlock Text="Структура организации:" Grid.Row="1" Margin="5 0 15 0"/>
 
 		<TreeView x:Name="organizationTree" Grid.Row="2" Grid.RowSpan="2"
-					 Margin="5 0 0 5" MaxWidth="300">
+					 Margin="5 0 15 5" MaxWidth="300">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Path=Departs}">
 					<TextBlock Text="{Binding Name}"/>
@@ -46,10 +46,11 @@
 
 
 		<TextBlock Text="Информация о сотрудниках:" Grid.Row="1" Grid.Column="1"
-					  Margin="15 0 0 0"/>
+					  Margin="0 0 0 0"/>
 
 		<ListView x:Name="employeesList" Grid.Row="2" Grid.Column="1"
-					 Margin="15 0 5 5">
+					 Margin="0 0 5 5" 
+					 ItemsSource="{Binding ElementName=organizationTree, Path=SelectedItem.Employees}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Vertical">

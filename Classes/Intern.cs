@@ -4,77 +4,75 @@ using System.Text;
 
 namespace OrganizationGUI.Classes
 {
-    /// <summary>
-    /// Интерн
-    /// </summary>
-    class Intern : Worker, IPost, ISalary
-    {
-        #region Constructors
+	/// <summary>
+	/// Интерн
+	/// </summary>
+	class Intern : Worker, ISalary
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Конструктор по умолчанию
-        /// </summary>
-        public Intern() { Id = ++countIntern; }
+		/// <summary>
+		/// Конструктор по умолчанию
+		/// </summary>
+		public Intern()
+		{
+			Id = ++countIntern;
+		}
 
-        /// <summary>
-        /// Конструктор
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="lastName"></param>
-        /// <param name="namePost"></param>
-        /// <param name="salary"></param>
-        public Intern(string name, string lastName, string namePost, int salary)
-        {
-            Name = name;
-            LastName = lastName;
-            NamePost = namePost;
-            Salary = salary;
-            Id = ++countIntern;
-        }
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="lastName"></param>
+		/// <param name="namePost"></param>
+		/// <param name="salary"></param>
+		public Intern(string name, string lastName, int salary)
+		{
+			Name = name;
+			LastName = lastName;
+			Salary = salary;
+			Id = ++countIntern;
+		}
 
-        #endregion  // Constructors
+		#endregion  // Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Идентификатор интерна
-        /// </summary>
-        public override int Id { get; }
+		/// <summary>
+		/// Идентификатор интерна
+		/// </summary>
+		public override int Id { get; }
 
-        /// <summary>
-        /// Наименование должности
-        /// </summary>
-        public string NamePost { get; set; }
+		/// <summary>
+		/// Зарплата интерна
+		/// </summary>
+		public int Salary
+		{
+			get; 
+			set;
+		}
 
-        /// <summary>
-        /// Зарплата интерна
-        /// </summary>
-        public int Salary
-        {
-            get; set;
-        }
+		#endregion  // Properties
 
-        #endregion  // Properties
+		#region Methods
 
-        #region Methods
+		/// <summary>
+		/// Информация об интерне
+		/// </summary>
+		/// <returns>String: Id, Name, LastName, BirthDate, NamePost, Salary</returns>
+		public override string ToString()
+		{
+			return $"| Идентификатор интерна: { Id } | " +
+					$"Имя интерна: { Name } | " +
+					$"Фамилия интерна: { LastName } | " +
+					$"Дата рождения интерна: { BirthDate } | " +
+					$"Должность интерна: { NamePost } | " +
+					$"Зарплата интерна: { Salary } |";
+		}
 
-        /// <summary>
-        /// Информация об интерне
-        /// </summary>
-        /// <returns>String: Id, Name, LastName, BirthDate, NamePost, Salary</returns>
-        public override string ToString()
-        {
-            return $"| Идентификатор интерна: { Id } | " +
-                    $"Имя интерна: { Name } | " +
-                    $"Фамилия интерна: { LastName } | " +
-                    $"Дата рождения интерна: { BirthDate } | " +
-                    $"Должность интерна: { NamePost } | " +
-                    $"Зарплата интерна: { Salary } |";
-        }
-
-        #endregion  // Methods
+		#endregion  // Methods
 
 
-        private static int countIntern = 0;    // количество созданных интернов
-    }
+		private static int countIntern = 0;    // количество созданных интернов
+	}
 }

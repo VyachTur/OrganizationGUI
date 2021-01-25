@@ -16,46 +16,61 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace OrganizationGUI {
+namespace OrganizationGUI
+{
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window {
-		public MainWindow() {
+	public partial class MainWindow : Window
+	{
+		public MainWindow()
+		{
 			InitializeComponent();
 
-
-			fillStructOg();
+			ObservableCollection<Organization> orgs;
+			orgs = returnAnyOrganization();
+			organizationTree.ItemsSource = orgs;
 		}
+
+
+
+
 
 
 		/// <summary>
 		/// Наполнение структуры организации (департаментами и сотрудниками)
 		/// </summary>
-		private void fillStructOg() {
+		private ObservableCollection<Organization> returnAnyOrganization()
+		{
 
-			ObservableCollection<Employee> emps = new ObservableCollection<Employee>();
+			ObservableCollection<Employee> emps1 = new ObservableCollection<Employee>();
 
-			emps.Add(new Employee("Иван", "Иванов", "Программист", 100_000));
-			emps.Add(new Employee("Василий", "Васильев", "Программист", 100_000));
-			emps.Add(new Employee("Петр", "Петров", "Программист", 100_000));
-			emps.Add(new Employee("Федор", "Федоров", "Инженер", 90_000));
+			emps1.Add(new Employee("Иван", "Иванов", "Программист", 100_000));
+			emps1.Add(new Employee("Василий", "Васильев", "Программист", 100_000));
+			emps1.Add(new Employee("Петр", "Петров", "Программист", 100_000));
+			emps1.Add(new Employee("Федор", "Федоров", "Инженер", 90_000));
 
-			//Debug.WriteLine(emps[0].Name);
+			ObservableCollection<Employee> emps2 = new ObservableCollection<Employee>();
+			emps1.Add(new Employee("Иван2", "Иванов1", "Программист", 100_000));
+			emps1.Add(new Employee("Василий1", "Васильев", "Программист", 100_000));
+			emps1.Add(new Employee("Петр", "Петров", "Программист", 100_000));
 
-			employeesList.ItemsSource = emps;
+			//Debug.WriteLine(emps1[0].Name);
+
+			//employeesList.ItemsSource = emps1;
 
 			Director director = Director.getInstance("Олег", "Важный", 1_000_000);
 			AssociateDirector assDirector = AssociateDirector.getInstance("Игорь", "Секонд", 500_000);
 
-			ObservableCollection<Worker> workers = new ObservableCollection<Worker>();
+			ObservableCollection<Worker> workers1 = new ObservableCollection<Worker>();
 
-			foreach (var emp in emps) {
-				workers.Add(emp);
+			foreach (var emp in emps1)
+			{
+				workers1.Add(emp);
 			}
 
-			workers.Add(director);
-			workers.Add(assDirector);
+			workers1.Add(director);
+			workers1.Add(assDirector);
 
 			#region Проверка синглтона
 
@@ -67,23 +82,23 @@ namespace OrganizationGUI {
 
 			#endregion    // Проверка синглтона
 
-			Department dep111 = new Department("Департамент 111", workers);
-			Department dep121 = new Department("Департамент 121", workers);
-			Department dep211 = new Department("Департамент 211", workers);
-			Department dep221 = new Department("Департамент 221", workers);
+			Department dep111 = new Department("Департамент 111", workers1);
+			Department dep121 = new Department("Департамент 121");
+			Department dep211 = new Department("Департамент 211");
+			Department dep221 = new Department("Департамент 221");
 
 			ObservableCollection<Department> deps211 = new ObservableCollection<Department>();
 			ObservableCollection<Department> deps221 = new ObservableCollection<Department>();
-			
+
 			deps211.Add(dep111);
 			deps211.Add(dep121);
 			deps221.Add(dep211);
 			deps221.Add(dep221);
 
-			Department dep11 = new Department("Департамент 11", workers, deps211);
-			Department dep12 = new Department("Департамент 12", workers);
-			Department dep21 = new Department("Департамент 21", workers);
-			Department dep22 = new Department("Департамент 22", workers, deps221);
+			Department dep11 = new Department("Департамент 11", deps211);
+			Department dep12 = new Department("Департамент 12");
+			Department dep21 = new Department("Департамент 21");
+			Department dep22 = new Department("Департамент 22", deps221);
 
 			ObservableCollection<Department> deps21 = new ObservableCollection<Department>();
 			ObservableCollection<Department> deps22 = new ObservableCollection<Department>();
@@ -92,19 +107,16 @@ namespace OrganizationGUI {
 			deps22.Add(dep21);
 			deps22.Add(dep22);
 
-			Department dep1 = new Department("Департамент 1", workers, deps21);
-			Department dep2 = new Department("Департамент 2", workers, deps22);
+			Department dep1 = new Department("Департамент 1", deps21);
+			Department dep2 = new Department("Департамент 2", deps22);
 
 			ObservableCollection<Department> deps1 = new ObservableCollection<Department>();
 			deps1.Add(dep1);
 			deps1.Add(dep2);
 
-			//organizationTree.ItemsSource = deps1;
-
-
 
 			// Вывод пробных департаментов
-			Department depMain = new Department("Главный департамент", workers, deps1);
+			Department depMain = new Department("Главный департамент", deps1);
 
 			Organization organization = new Organization("Организация", director, assDirector, deps1);
 
@@ -112,13 +124,13 @@ namespace OrganizationGUI {
 			orgs.Add(organization);
 
 
-			organizationTree.ItemsSource = orgs;
+			return orgs;
 
 
 			//MessageBox.Show(organization.ToString());
 			//MessageBox.Show(depMain.ToString());
 
-			//MessageBox.Show($"Всех сотрудников: { workers.Count }");
+			//MessageBox.Show($"Всех сотрудников: { workers1.Count }");
 
 			//MessageBox.Show(director1.Name);
 			//MessageBox.Show(assDirector1.Name);
