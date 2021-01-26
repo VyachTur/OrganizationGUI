@@ -19,6 +19,7 @@ namespace OrganizationGUI.Classes
 		public Organization()
 		{
 			Name = String.Empty;
+			departments = new ObservableCollection<Department>();
 		}
 
 		/// <summary>
@@ -31,8 +32,8 @@ namespace OrganizationGUI.Classes
 		public Organization(string name, Director director, AssociateDirector associateDirector, ObservableCollection<Department> departments)
 		{
 			this.Name = name;
-			this.director = director;
-			this.associateDirector = associateDirector;
+			this.Dir = director;
+			this.AssociateDir = associateDirector;
 			this.departments = departments;
 		}
 
@@ -47,6 +48,7 @@ namespace OrganizationGUI.Classes
 
 		#endregion
 
+
 		#region Properties
 
 		/// <summary>
@@ -57,12 +59,12 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Директор
 		/// </summary>
-		public Director director { get; set; }
+		public Director Dir { get; set; }
 
 		/// <summary>
 		/// Заместитель директора
 		/// </summary>
-		public AssociateDirector associateDirector { get; set; }
+		public AssociateDirector AssociateDir { get; set; }
 
 		/// <summary>
 		/// Возвращает коллекцию департаментов в организации
@@ -91,8 +93,14 @@ namespace OrganizationGUI.Classes
 
 		#region Methods
 
-
-		//public void
+		/// <summary>
+		/// Добавление департамента в коллекцию департаментов
+		/// </summary>
+		/// <param name="dep">Департамент</param>
+		public void AddDepatament(Department dep)
+		{
+			departments.Add(dep);
+		}
 
 
 		/// <summary>
@@ -102,8 +110,8 @@ namespace OrganizationGUI.Classes
 		public override string ToString()
 		{
 			return $"Название организации: { Name } | " +
-					$"Имя директора: {director?.Name ?? String.Empty} {director?.LastName ?? String.Empty} | " +
-					$"Имя зама: {associateDirector?.Name ?? String.Empty} {associateDirector?.LastName ?? String.Empty} | " +
+					$"Имя директора: {Dir?.Name ?? String.Empty} {Dir?.LastName ?? String.Empty} | " +
+					$"Имя зама: {AssociateDir?.Name ?? String.Empty} {AssociateDir?.LastName ?? String.Empty} | " +
 					$"Количество департаментов верхнего уровня: {CountDepartments} | ";
 		}
 

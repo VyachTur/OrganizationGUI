@@ -22,15 +22,17 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="lastName"></param>
-		/// <param name="namePost"></param>
-		/// <param name="salary"></param>
-		public Intern(string name, string lastName, int salary)
+		/// <param name="name">Имя</param>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="birthDate">Дата рождения</param>
+		/// <param name="salary">Зарплата</param>
+		public Intern(string name, string lastName, DateTime birthDate, int salary)
 		{
 			Name = name;
 			LastName = lastName;
+			BirthDate = birthDate;
 			Salary = salary;
+
 			Id = ++countIntern;
 		}
 
@@ -66,7 +68,6 @@ namespace OrganizationGUI.Classes
 					$"Имя интерна: { Name } | " +
 					$"Фамилия интерна: { LastName } | " +
 					$"Дата рождения интерна: { BirthDate } | " +
-					$"Должность интерна: { NamePost } | " +
 					$"Зарплата интерна: { Salary } |";
 		}
 

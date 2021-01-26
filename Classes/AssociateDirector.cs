@@ -19,16 +19,16 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="lastName"></param>
-		/// <param name="namePost"></param>
-		/// <param name="salary"></param>
-		protected AssociateDirector(string name, string lastName, DateTime birthDate, int salary)
+		/// <param name="name">Имя</param>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="birthDate">Дата рождения</param>
+		/// <param name="salary">Зарплата</param>
+		protected AssociateDirector(string name, string lastName, DateTime birthDate)
 		{
 			Name = name;
 			LastName = lastName;
 			BirthDate = birthDate;
-			Salary = salary;
+
 			Id = 1;
 		}
 
@@ -61,10 +61,10 @@ namespace OrganizationGUI.Classes
 		/// <param name="lastName"></param>
 		/// <param name="salary"></param>
 		/// <returns></returns>
-		public static AssociateDirector getInstance(string name, string lastName, DateTime birthDate, int salary)
+		public static AssociateDirector getInstance(string name, string lastName, DateTime birthDate)
 		{
 			if (instance == null)
-				instance = new AssociateDirector(name, lastName, birthDate, salary);
+				instance = new AssociateDirector(name, lastName, birthDate);
 			return instance;
 		}
 

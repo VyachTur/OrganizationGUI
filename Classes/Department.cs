@@ -26,9 +26,10 @@ namespace OrganizationGUI.Classes
 		/// Конструктор 1
 		/// </summary>
 		/// <param name="name">Наименование департамента</param>
-		public Department(string name)
+		public Department(string name, DepBoss localBoss)
 		{
 			Name = name;
+			LocalBoss = localBoss;
 
 			workers = new ObservableCollection<Worker>();
 			departs = new ObservableCollection<Department>();
@@ -41,9 +42,10 @@ namespace OrganizationGUI.Classes
 		/// </summary>
 		/// <param name="name">Наименование департамента</param>
 		/// <param name="workers">Работники департамента</param>
-		public Department(string name, ObservableCollection<Worker> workers, ObservableCollection<Department> departs)
+		public Department(string name, DepBoss localBoss, ObservableCollection<Department> departs, ObservableCollection<Worker> workers)
 		{
 			Name = name;
+			LocalBoss = localBoss;
 			this.workers = workers;
 			this.departs = departs;
 
@@ -53,24 +55,20 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Конструктор 2.2
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="workers"></param>
-		public Department(string name, ObservableCollection<Worker> workers)
-			: this(name, workers, new ObservableCollection<Department>()) { }
-
-		/// <summary>
-		/// Конструктор 3
-		/// </summary>
 		/// <param name="name">Наименование департамента</param>
 		/// <param name="departs">Департаменты в текущем департаменте</param>
-		public Department(string name, ObservableCollection<Department> departs)
-		{
-			Name = name;
-			this.workers = new ObservableCollection<Worker>();
-			this.departs = departs;
+		public Department(string name, DepBoss localBoss, ObservableCollection<Department> departs)
+			: this(name, localBoss, departs, new ObservableCollection<Worker>()) { }
 
-			Id = ++Count_Dep;
-		}
+		/// <summary>
+		/// Конструктор 2.3
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="workers"></param>
+		public Department(string name, DepBoss localBoss, ObservableCollection<Worker> workers)
+			: this(name, localBoss, new ObservableCollection<Department>(), workers) { }
+
+		
 
 		#endregion // Constructors
 
@@ -86,6 +84,11 @@ namespace OrganizationGUI.Classes
 		/// Название департамента
 		/// </summary>
 		public string Name { get; set; }
+
+		/// <summary>
+		/// Начальник департамента
+		/// </summary>
+		public DepBoss LocalBoss { get; set; }
 
 		/// <summary>
 		/// Возвращает коллекцию поддепартаментов
@@ -135,7 +138,7 @@ namespace OrganizationGUI.Classes
 		}
 
 		/// <summary>
-		/// Количество "поддепартаментов" в департаменте
+		/// Количество поддепартаментов в департаменте
 		/// </summary>
 		public static int CountDeparts
 		{
@@ -150,30 +153,14 @@ namespace OrganizationGUI.Classes
 
 		#region Methods
 
-		//private int countDeparts()
-		//{
-		//    if (Departs != null)
-		//    {
-		//        foreach (var itemDep in Departs)
-		//        {
-		//            return Departs.Count 
-		//                + itemDep.countDeparts();
-		//        }
-		//    }
-
-		//    return 0;
-		//}
-
-
 		/// <summary>
-		/// Возвращает сотрудника по его идентификатору
+		/// Добавление департамента в коллекцию поддепартаментов
 		/// </summary>
-		/// <param name="idEmpl">Идентификатор сотрудника отдела</param>
-		/// <returns></returns>
-		//public Employee returnEmplAtId(int idEmpl)
-		//{
-		//    return this.employees_Dep.Find((item) => item.Id == idEmpl);
-		//}
+		/// <param name="dep">Департамент</param>
+		public void AddDepartament(Department dep)
+		{
+			departs.Add(dep);
+		}
 
 
 		/// <summary>

@@ -12,6 +12,6 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Размер зарплаты
 		/// </summary>
-		int Salary { get; set; }
+		public int Salary { get; set; }
 	}
 }

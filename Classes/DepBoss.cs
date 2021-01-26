@@ -19,15 +19,15 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="lastName"></param>
-		/// <param name="namePost"></param>
-		/// <param name="salary"></param>
-		public DepBoss(string name, string lastName, int salary)
+		/// <param name="name">Имя</param>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="birthDate">Дата рождения</param>
+		public DepBoss(string name, string lastName, DateTime birthDate)
 		{
 			Name = name;
 			LastName = lastName;
-			Salary = salary;
+			BirthDate = birthDate;
+
 			Id = ++countDepBoss;
 		}
 
@@ -42,12 +42,12 @@ namespace OrganizationGUI.Classes
 
 
 		/// <summary>
-		/// Зарплата сотрудника
+		/// Зарплата начальника департамента
 		/// </summary>
 		public int Salary
 		{
-			get; 
-			set;
+			get { return 500_000; }
+			set { Salary = value; }
 		}
 
 		#endregion  // Properties
@@ -64,8 +64,8 @@ namespace OrganizationGUI.Classes
 					$"Имя рабочего: { Name } | " +
 					$"Фамилия рабочего: { LastName } | " +
 					$"Дата рождения рабочего: { BirthDate } | " +
-					$"Должность рабочего: { NamePost } | " +
-					$"Зарплата рабочего: { Salary } |";
+					$"Должность сотрудника: начальник департамента | " +
+					$"Зарплата сотрудника: { Salary } |";
 		}
 
 		#endregion  // Methods

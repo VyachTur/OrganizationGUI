@@ -19,16 +19,16 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="lastName"></param>
-		/// <param name="namePost"></param>
-		/// <param name="salary"></param>
-		protected Director(string name, string lastName, DateTime birthDate, int salary)
+		/// <param name="name">Имя</param>
+		/// <param name="lastName">Фамилия</param>
+		/// <param name="birthDate">Дата рождения</param>
+		/// <param name="salary">Зарплата</param>
+		protected Director(string name, string lastName, DateTime birthDate)
 		{
 			Name = name;
 			LastName = lastName;
 			BirthDate = birthDate;
-			Salary = salary;
+
 			Id = 1;
 		}
 
@@ -54,10 +54,10 @@ namespace OrganizationGUI.Classes
 
 		#region Methods
 
-		public static Director getInstance(string name, string lastName, DateTime birthDate, int salary)
+		public static Director getInstance(string name, string lastName, DateTime birthDate)
 		{
 			if (instance == null)
-				instance = new Director(name, lastName, birthDate, salary);
+				instance = new Director(name, lastName, birthDate);
 			return instance;
 		}
 

@@ -17,13 +17,13 @@ namespace OrganizationGUI.Classes
 		public Employee() { Id = ++countEmp; }
 
 		/// <summary>
-		/// Конструктор 1.1
+		/// Конструктор 1
 		/// </summary>
 		/// <param name="name">Имя сотрудника</param>
 		/// <param name="lastName">Фамилия сотрудника</param>
-		/// <param name="birthDate"></param>
-		/// <param name="namePost"></param>
-		/// <param name="salary"></param>
+		/// <param name="birthDate">Дата рождения</param>
+		/// <param name="namePost">Наименование должности</param>
+		/// <param name="salary">Зарплата</param>
 		public Employee(string name, string lastName, DateTime birthDate, string namePost, int salary)
 		{
 			Name = name;
@@ -34,24 +34,9 @@ namespace OrganizationGUI.Classes
 			Id = ++countEmp;
 		}
 
-		/// <summary>
-		/// Конструктор 1.2
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="lastName"></param>
-		/// <param name="namePost"></param>
-		/// <param name="salary"></param>
-		public Employee(string name, string lastName, string namePost, int salary)
-		{
-			Name = name;
-			LastName = lastName;
-			NamePost = namePost;
-			Salary = salary;
-			Id = ++countEmp;
-		}
-
 
 		#endregion  // Constructors
+
 
 		#region Properties
 
