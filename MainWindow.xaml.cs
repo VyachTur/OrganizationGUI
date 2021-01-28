@@ -326,5 +326,10 @@ namespace OrganizationGUI
 			return orgs;
 
 		}
+
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			(organizationTree.ItemsSource as ObservableCollection<Organization>)[0].xmlOrganizationSerializer(@"organization.xml") ;
+		}
 	}
 }

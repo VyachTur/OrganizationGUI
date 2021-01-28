@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace OrganizationGUI.Classes
 {
@@ -162,6 +163,108 @@ namespace OrganizationGUI.Classes
 					$"Имя зама: {AssociateDir?.Name ?? String.Empty} {AssociateDir?.LastName ?? String.Empty} | " +
 					$"Количество департаментов верхнего уровня: {CountDepartments} | ";
 		}
+
+
+
+		#region XML        
+		/// <summary>
+		/// Сериализует организацию (xml)
+		/// </summary>
+		/// /// <param name="path">Путь к файлу экспорта (xml)</param>
+		public void xmlOrganizationSerializer(string path)
+		{
+
+			XElement xeORGANIZATION = new XElement("ORGANIZATION");
+			XAttribute xaNAME_ORG = new XAttribute("orgname", this.Name);
+
+			XAttribute xaNAME_DIR = new XAttribute("dirname", this.Dir.Name);
+			XAttribute xaLASTNAME_DIR = new XAttribute("dirlastname", this.Dir.LastName);
+			XAttribute xaBIRTHDATE_DIR = new XAttribute("dirbirth", this.Dir.BirthDate);
+
+			XAttribute xaNAME_ASSDIR = new XAttribute("assdirname", this.AssociateDir.Name);
+			XAttribute xaLASTNAME_ASSDIR = new XAttribute("assdirlastname", this.AssociateDir.LastName);
+			XAttribute xaBIRTHDATE_ASSDIR = new XAttribute("assdirbirth", this.AssociateDir.BirthDate);
+
+			// ДЕПАРТАМЕНТЫ ОРГАНИЗАЦИИ
+			XElement xeDEPARTMENTS = new XElement("DEPARTMENTS");
+
+			foreach (Department dep in Departs)
+			{
+				XElement xeDEPARTMENT = new XElement("DEPARTMENT");
+
+				XAttribute xaNAME_DEP = new XAttribute("depname", dep.Name);
+				XAttribute xaNAME_DEPBOSS = new XAttribute("depbossname", dep.LocalBoss.Name);
+				XAttribute xaLASTNAME_DEPBOSS = new XAttribute("depbosslastname", dep.LocalBoss.LastName);
+				XAttribute xaBIRTHDATE_DEPBOSS = new XAttribute("depbossbirth", dep.LocalBoss.BirthDate);
+
+				// СОТРУДНИКИ ОРГАНИЗАЦИИ
+				XElement xeEMPLOYEES = new XElement("EMPLOYEES");
+
+				foreach (Employee emp in dep.Employees)
+				{
+					XElement xeEMPLOYEE = new XElement("EMPLOYEE");
+
+					XAttribute xaNAME_EMP = new XAttribute("empname", emp.Name);
+					XAttribute xaLASTNAME_EMP = new XAttribute("emplastname", emp.LastName);
+					XAttribute xaBIRTHDATE_EMP = new XAttribute("empbirthdate", emp.BirthDate);
+					XAttribute xaPOST_EMP = new XAttribute("empnamepost", emp.NamePost);
+					XAttribute xaSALARY_EMP = new XAttribute("empsalary", emp.Salary/168);
+
+					//xeEMPLOYEE.Add(xaNAME_EMP, xaLASTNAME_EMP, xaBIRTHDATE_EMP, xaPOST_EMP, xaSALARY_EMP);
+					xeEMPLOYEE.Add(xaSALARY_EMP, xaPOST_EMP, xaBIRTHDATE_EMP, xaLASTNAME_EMP, xaNAME_EMP);
+
+					xeEMPLOYEES.Add(xeEMPLOYEE);
+				}
+
+				// ИНТЕРНЫ ОРГАНИЗАЦИИ
+				XElement xeINTERNS = new XElement("INTERNS");
+
+				foreach (Intern intern in dep.Interns)
+				{
+					XElement xeINTERN = new XElement("INTERN");
+
+					XAttribute xaNAME_INTERN = new XAttribute("internname", intern.Name);
+					XAttribute xaLASTNAME_INTERN = new XAttribute("internlastname", intern.LastName);
+					XAttribute xaBIRTHDATE_INTERN = new XAttribute("internbirthdate", intern.BirthDate);
+					XAttribute xaSALARY_INTERN = new XAttribute("internsalary", intern.Salary);
+
+					//xeINTERN.Add(xaNAME_INTERN, xaLASTNAME_INTERN, xaBIRTHDATE_INTERN, xaSALARY_INTERN);
+					xeINTERN.Add(xaSALARY_INTERN, xaBIRTHDATE_INTERN, xaLASTNAME_INTERN, xaNAME_INTERN);
+
+					xeINTERNS.Add(xeINTERN);
+				}
+
+				xeDEPARTMENT.Add(xaNAME_DEP, xaBIRTHDATE_DEPBOSS, xaLASTNAME_DEPBOSS, xaNAME_DEPBOSS);
+				xeDEPARTMENT.Add(xeEMPLOYEES);
+				xeDEPARTMENT.Add(xeINTERNS);
+
+				xeDEPARTMENTS.Add(xeDEPARTMENT);
+
+			}
+
+			xeORGANIZATION.Add(xeDEPARTMENTS, xaBIRTHDATE_ASSDIR, xaLASTNAME_ASSDIR, xaNAME_ASSDIR, xaBIRTHDATE_DIR,
+								xaLASTNAME_DIR, xaNAME_DIR, xaNAME_ORG);
+
+			xeORGANIZATION.Save(path);
+		}
+
+
+		/// <summary>
+		/// Десериализует организацию (xml)
+		/// </summary>
+		/// <param name="path">Путь к файлу импорта (xml)</param>
+		public static Organization xmlOrganizationDeserializer(string path)
+		{
+
+			// ЗАГЛУШКА!
+			return new Organization();
+
+		}
+
+
+
+		#endregion  // XML
+
 
 		#endregion  // Methods
 

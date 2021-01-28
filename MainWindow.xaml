@@ -39,7 +39,7 @@
 
 		<Menu Grid.ColumnSpan="2" FontSize="14" Margin="0 0 0 5">
 			<MenuItem Header="Файл">
-				<MenuItem Header="Загрузить" ></MenuItem>
+				<MenuItem Header="Загрузить" Click="MenuItem_Click" ></MenuItem>
 				<MenuItem Header="Выгрузить" ></MenuItem>
 			</MenuItem>
 		</Menu>
