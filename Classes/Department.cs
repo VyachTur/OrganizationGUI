@@ -18,7 +18,7 @@ namespace OrganizationGUI.Classes
 		/// </summary>
 		public Department()
 		{
-			Id = ++Count_Dep;
+			Id = ++countDep;
 			Name = String.Empty;
 		}
 
@@ -34,7 +34,7 @@ namespace OrganizationGUI.Classes
 			workers = new ObservableCollection<Worker>();
 			departs = new ObservableCollection<Department>();
 
-			Id = ++Count_Dep;
+			Id = ++countDep;
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace OrganizationGUI.Classes
 			this.workers = workers;
 			this.departs = departs;
 
-			Id = ++Count_Dep;
+			Id = ++countDep;
 		}
 
 		/// <summary>
@@ -121,7 +121,27 @@ namespace OrganizationGUI.Classes
 		}
 
 		/// <summary>
-		/// Количество рабочих в департаменте
+		/// Возвращает коллекцию работников в текущем департаменте
+		/// </summary>
+		public ObservableCollection<Intern> Interns
+		{
+			get
+			{
+				ObservableCollection<Intern> interns = new ObservableCollection<Intern>();
+
+				foreach (var intern in workers)
+				{
+					if (intern is Intern) interns.Add(intern as Intern);
+				}
+
+				return interns ?? new ObservableCollection<Intern>();
+
+			}
+		}
+
+
+		/// <summary>
+		/// Количество работников в департаменте
 		/// </summary>
 		public int CountEmployees
 		{
@@ -138,13 +158,42 @@ namespace OrganizationGUI.Classes
 		}
 
 		/// <summary>
-		/// Количество поддепартаментов в департаменте
+		/// Количество интернов в департаменте
 		/// </summary>
-		public static int CountDeparts
+		public int CountInterns
 		{
 			get
 			{
-				return Count_Dep;
+				int count = 0;
+				foreach (var worker in workers)
+				{
+					if (worker is Intern) ++count;    // подсчет интернов
+				}
+
+				return count;
+			}
+		}
+
+
+		/// <summary>
+		/// Зарплата начальника департамента
+		/// </summary>
+		public int LocalBossSalary
+		{
+			get
+			{
+				return salaryLocalBoss();
+			}
+		}
+
+		/// <summary>
+		/// Количество поддепартаментов в департаменте
+		/// </summary>
+		public int CountDeparts
+		{
+			get
+			{
+				return countDep;
 			}
 		}
 
@@ -161,6 +210,41 @@ namespace OrganizationGUI.Classes
 		{
 			departs.Add(dep);
 		}
+
+		/// <summary>
+		/// Возвращает сумму зарплат всех работников департамента (и его поддепартаментов)
+		/// </summary>
+		/// <returns></returns>
+		private int salaryLocalBoss()
+		{
+			int indexDepartment = Departs.Count;	// количество поддепартаментов
+
+			if (indexDepartment > 0)
+			{
+				return salarySumWorkers() + Departs[--indexDepartment].salaryLocalBoss();
+			} 
+			else
+			{
+				return salarySumWorkers();
+			}
+		}
+
+		/// <summary>
+		/// Сумма зарплат всех работников департамента
+		/// </summary>
+		/// <returns></returns>
+		private int salarySumWorkers()
+		{
+			int salarySum = 0;
+
+			foreach (var worker in workers)
+			{
+				salarySum += (worker as ISalary)?.Salary ?? 0;
+			}
+
+			return salarySum;
+		}
+
 
 
 		/// <summary>
@@ -183,7 +267,7 @@ namespace OrganizationGUI.Classes
 		private ObservableCollection<Worker> workers;       // работники департамента
 		private ObservableCollection<Department> departs;   // "поддепартаменты"
 
-		private static int Count_Dep = 0;                      // счетчик для идентификатора департамента
+		private static int countDep = 0;                      // счетчик для идентификатора департамента
 
 		#endregion // Fields
 

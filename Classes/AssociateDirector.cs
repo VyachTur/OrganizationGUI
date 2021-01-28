@@ -46,8 +46,8 @@ namespace OrganizationGUI.Classes
 		/// </summary>
 		public int Salary
 		{
-			get;
-			set;
+			get { return 900_000; }
+			set { Salary = value; }
 		}
 
 		#endregion  // Properties

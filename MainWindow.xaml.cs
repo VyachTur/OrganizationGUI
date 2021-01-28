@@ -30,6 +30,7 @@ namespace OrganizationGUI
 			ObservableCollection<Organization> orgs;
 			orgs = returnAnyOrganization();
 			organizationTree.ItemsSource = orgs;
+			DataContext = orgs[0];
 		}
 
 
@@ -42,7 +43,6 @@ namespace OrganizationGUI
 		/// </summary>
 		private ObservableCollection<Organization> returnAnyOrganization()
 		{
-
 
 			Director director = Director.getInstance("Олег", "Важный", new DateTime(1961, 1, 1));
 			AssociateDirector assDirector = AssociateDirector.getInstance("Игорь", "Чутьменееважный", new DateTime(1962, 2, 2));
@@ -62,9 +62,11 @@ namespace OrganizationGUI
 			workers1.Add(new Employee("Игорь", "Федоров", new DateTime(1978, 10, 24), "Системный администратор", 90_000));
 			workers1.Add(new Employee("Матвей", "Павлов", new DateTime(1979, 11, 26), "Инженер", 95_000));
 			workers1.Add(new Employee("Марина", "Маринина", new DateTime(1980, 12, 27), "Инженер", 95_000));
+			workers1.Add(new Intern("Игорь", "Новичков", new DateTime(1999, 10, 12), 45_000));
+			workers1.Add(new Intern("Иван", "Непонимающий", new DateTime(1996, 8, 16), 45_000));
 
 			// Создание департамента 1
-			Department departament1 = new Department("Департамент 12", depBoss1, workers1);
+			Department departament1 = new Department("Департамент 1", depBoss1, workers1);
 
 			#region Департамент 11
 
@@ -95,6 +97,7 @@ namespace OrganizationGUI
 			workers12.Add(new Employee("Василий", "Васильев", new DateTime(1972, 4, 3), "Программист", 100_000));
 			workers12.Add(new Employee("Петр", "Петров", new DateTime(1973, 2, 3), "Системный администратор", 100_000));
 			workers12.Add(new Employee("Федор", "Федоров", new DateTime(1974, 3, 3), "Инженер", 90_000));
+			workers12.Add(new Intern("Василий", "Ябсделал", new DateTime(2000, 2, 26), 40_000));
 
 			// Создание департамента 12
 			Department departament12 = new Department("Департамент 12", depBoss12, workers12);
@@ -122,12 +125,11 @@ namespace OrganizationGUI
 
 			// Добавление поддепартаментов в департаменты
 			departament12.AddDepartament(departament121);
-			departament1.AddDepartament(departament12);
 			departament1.AddDepartament(departament11);
+			departament1.AddDepartament(departament12);
 
 
 			#endregion   // Департамент 1
-
 
 
 			#region Департамент 2
@@ -147,6 +149,9 @@ namespace OrganizationGUI
 			workers2.Add(new Employee("Иван", "Сисадминский", new DateTime(1984, 06, 30), "Системный администратор", 95_000));
 			workers2.Add(new Employee("Владимир", "Владимиров", new DateTime(1985, 11, 21), "Инженер", 100_000));
 			workers2.Add(new Employee("Галина", "Галинина", new DateTime(1986, 10, 15), "Инженер", 100_000));
+			workers2.Add(new Intern("Егор", "Этокаковый", new DateTime(1995, 6, 5), 45_000));
+			workers2.Add(new Intern("Анна", "Немогущая", new DateTime(1994, 11, 2), 45_000));
+			workers2.Add(new Intern("Платон", "Почемучин", new DateTime(1994, 11, 2), 45_000));
 
 			// Создание департамента 2
 			Department departament2 = new Department("Департамент 2", depBoss2, workers2);
@@ -165,6 +170,7 @@ namespace OrganizationGUI
 			workers21.Add(new Employee("Федор", "Федоров", new DateTime(1978, 07, 10), "Системный администратор", 90_000));
 			workers21.Add(new Employee("Евгения", "Евгенина", new DateTime(1968, 07, 11), "Инженер", 90_000));
 			workers21.Add(new Employee("Илона", "Давыдная", new DateTime(1975, 01, 16), "Инженер", 90_000));
+			workers21.Add(new Intern("Василиса", "Немудрая", new DateTime(1997, 09, 12), 40_000));
 
 			// Создание департамента 21
 			Department departament21 = new Department("Департамент 21", depBoss21, workers21);
@@ -182,6 +188,7 @@ namespace OrganizationGUI
 			workers211.Add(new Employee("Федор", "Петров", new DateTime(1977, 08, 12), "Системный администратор", 100_000));
 			workers211.Add(new Employee("Федор", "Федоров", new DateTime(1978, 09, 13), "Инженер", 90_000));
 			workers211.Add(new Employee("Петр", "Петров", new DateTime(1985, 12, 20), "Инженер", 90_000));
+			workers211.Add(new Intern("Акакий", "Акаконов", new DateTime(1993, 11, 07), 40_000));
 
 			// Создание департамента 211
 			Department departament211 = new Department("Департамент 211", depBoss211, workers211);
@@ -195,6 +202,7 @@ namespace OrganizationGUI
 			workers2111.Add(depBoss2111);
 			workers2111.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 02, 25), "Программист", 75_000));
 			workers2111.Add(new Employee("Павел", "Петров", new DateTime(1972, 04, 28), "Системный администратор", 65_000));
+			workers2111.Add(new Intern("Юлия", "Июльская", new DateTime(1995, 11, 17), 40_000));
 
 			// Создание департамента 2111
 			Department departament2111 = new Department("Департамент 2111", depBoss2111, workers2111);
@@ -235,6 +243,7 @@ namespace OrganizationGUI
 			workers22.Add(new Employee("Василий", "Васильев", new DateTime(1976, 02, 11), "Программист", 100_000));
 			workers22.Add(new Employee("Федор", "Петров", new DateTime(1977, 08, 12), "Системный администратор", 100_000));
 			workers22.Add(new Employee("Федор", "Федоров", new DateTime(1978, 09, 13), "Инженер", 90_000));
+			workers22.Add(new Intern("Николай", "Недумающий", new DateTime(1998, 07, 02), 40_000));
 
 			// Создание департамента 22
 			Department departament22 = new Department("Департамент 22", depBoss22, workers22);
@@ -250,6 +259,7 @@ namespace OrganizationGUI
 
 			workers23.Add(depBoss23);
 			workers23.Add(new Employee("Иван", "Иванов", new DateTime(1971, 01, 03), "Программист", 100_000));
+			workers23.Add(new Intern("Роман", "Ждущий", new DateTime(1995, 10, 27), 40_000));
 
 			// Создание департамента 23
 			Department departament23 = new Department("Департамент 23", depBoss23, workers23);
@@ -304,16 +314,6 @@ namespace OrganizationGUI
 			#endregion  // Департамент 2
 
 
-			//ObservableCollection<Worker> workers1 = new ObservableCollection<Worker>();
-
-			//foreach (var emp in emps1)
-			//{
-			//	workers1.Add(emp);
-			//}
-
-			//workers1.Add(director);
-			//workers1.Add(assDirector);
-
 			#region Проверка синглтона
 
 			// Проверка синглтонов Director и AssociateDirector
@@ -335,15 +335,6 @@ namespace OrganizationGUI
 
 
 			return orgs;
-
-
-			//MessageBox.Show(organization.ToString());
-			//MessageBox.Show(depMain.ToString());
-
-			//MessageBox.Show($"Всех сотрудников: { workers1.Count }");
-
-			//MessageBox.Show(director1.Name);
-			//MessageBox.Show(assDirector1.Name);
 
 		}
 	}

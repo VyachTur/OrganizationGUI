@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrganizationGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinWidth="500" MinHeight="300">
+        Title="ОБРПРБД 'Обычная организация'" Height="550" Width="800" MinWidth="670" MinHeight="450">
 
 	<Window.Resources>
 		<Style TargetType="Border">
@@ -20,6 +20,7 @@
 		<Style x:Key="PlainText">
 			<Setter Property="TextBlock.Margin" Value="0" />
 			<Setter Property="TextBlock.FontSize" Value="16" />
+			<Setter Property="TextBlock.FontWeight" Value="Normal" />
 		</Style>
 	</Window.Resources>
 
@@ -28,40 +29,47 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
-			   <RowDefinition />
 				<RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-				<RowDefinition />
-				<RowDefinition Height="Auto"/>
+			<RowDefinition />
 		</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition MinWidth="250" Width="Auto"/>
 				<ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-		<Menu Grid.ColumnSpan="2" FontSize="14">
+		<Menu Grid.ColumnSpan="2" FontSize="14" Margin="0 0 0 5">
 			<MenuItem Header="Файл">
 				<MenuItem Header="Загрузить" ></MenuItem>
 			</MenuItem>
 		</Menu>
 
-		<StackPanel Orientation="Vertical" Margin="5 0 5 5" Grid.Row="2" Grid.Column="0">
+		<Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5 0 5 5">
+			<StackPanel Orientation="Vertical" Margin="0">
 
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Начальник организации: "/>
-				<TextBlock Text="{Binding Dir}"/>
-				<TextBlock Text=""/>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Начальник организации: "/>
+					<TextBlock FontSize="18" FontWeight="Medium" Style="{StaticResource PlainText}"
+								Text="{Binding Dir.Name}"/>
+					<TextBlock FontSize="18" FontWeight="Medium" Style="{StaticResource PlainText}"
+								Text="{Binding StringFormat={} {0}, Path = Dir.LastName}"/>
+					<TextBlock FontSize="18" Style="{StaticResource PlainText}"
+								Text="{Binding StringFormat=\, зарплата: {0} р., Path = Dir.Salary}"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Заместитель начальника: "/>
+					<TextBlock FontSize="18" FontWeight="Medium" Style="{StaticResource PlainText}"
+								Text="{Binding AssociateDir.Name}"/>
+					<TextBlock FontSize="18" FontWeight="Medium" Style="{StaticResource PlainText}"
+								Text="{Binding StringFormat={} {0}, Path = AssociateDir.LastName}"/>
+					<TextBlock FontSize="18" Style="{StaticResource PlainText}"
+								Text="{Binding StringFormat=\, зарплата: {0} р., Path = AssociateDir.Salary}"/>
+				</StackPanel>
+
 			</StackPanel>
+		</Border>
 
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Заместитель начальника: "/>
-				<TextBlock Text=""/>
-				<TextBlock Text=""/>
-			</StackPanel>
-
-		</StackPanel>
-
-		<TreeView x:Name="organizationTree" Grid.Row="3" Grid.RowSpan="6"
+		<TreeView x:Name="organizationTree" Grid.Row="2" Grid.RowSpan="6"
 					 Margin="5 0 15 5" MaxWidth="300" FontSize="16">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Path=Departs}">
@@ -77,7 +85,11 @@
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
-					<RowDefinition />
+					<RowDefinition Height="2*"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
 
 				<TextBlock Text="Начальник департамента:" Margin="5 0 5 0"/>
@@ -90,7 +102,7 @@
 									  Text="{Binding ElementName=organizationTree, 
 															Path=SelectedItem.LocalBoss.Name}" />
 						<TextBlock FontWeight="Medium" Style="{StaticResource PlainText}"
-									  Text="{Binding StringFormat={} {0} ,
+									  Text="{Binding StringFormat={} {0},
 															ElementName=organizationTree,
 															Path=SelectedItem.LocalBoss.LastName}" />
 						<TextBlock Style="{StaticResource PlainText}"
@@ -102,13 +114,13 @@
 					<TextBlock Style="{StaticResource PlainText}"
 									  Text="{Binding StringFormat=Зарплата: {0} р.,
 															ElementName=organizationTree,
-															Path=SelectedItem.LocalBoss.Salary}" />
+															Path=SelectedItem.LocalBossSalary}" />
 
 				</StackPanel>
 
 				<TextBlock Text="Сотрудники:" Margin="5 0 5 5" Grid.Row="2"/>
 
-				<ListView x:Name="employeesList" Grid.Row="3" Margin="5 0 5 5" 
+				<ListView x:Name="employeesList" Grid.Row="3" Margin="5 0 5 0" 
 					 ItemsSource="{Binding ElementName=organizationTree, Path=SelectedItem.Employees}">
 					<ListView.ItemTemplate>
 						<DataTemplate>
@@ -129,12 +141,41 @@
 					</ListView.ItemTemplate>
 				</ListView>
 
+				<TextBlock HorizontalAlignment="Right" Margin="0 0 30 5"
+							  Grid.Row="4" Style="{StaticResource PlainText}"
+								Text="{Binding StringFormat=Всего сотрудников: {0}, 
+											ElementName=organizationTree, Path=SelectedItem.CountEmployees}"/>
+
+				<TextBlock Text="Интерны:" Margin="5 0 5 5" Grid.Row="5"/>
+
+				<ListView x:Name="internsList" Grid.Row="6" Margin="5 0 5 0" 
+					 ItemsSource="{Binding ElementName=organizationTree, Path=SelectedItem.Interns}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock FontSize="16" Text="{Binding Path=Name}" />
+									<TextBlock FontSize="16" Text=" " />
+									<TextBlock FontSize="16" Text="{Binding Path=LastName}" />
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock FontSize="12" Text="Зарплата: " />
+									<TextBlock Text="{Binding Path=Salary}" />
+									<TextBlock Text=" р." />
+								</StackPanel>
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+
+				<TextBlock HorizontalAlignment="Right" Margin="0 0 30 5"
+							  Grid.Row="7" Style="{StaticResource PlainText}"
+								Text="{Binding StringFormat=Всего интернов: {0}, 
+											ElementName=organizationTree, Path=SelectedItem.CountInterns}"/>
+
 			</Grid>
 
 		</Border>
-
-
-
 
 	</Grid>
 

@@ -7,7 +7,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Начальник департамента
 	/// </summary>
-	class DepBoss : Worker, ISalary
+	class DepBoss : Worker
 	{
 		#region Constructors
 
@@ -44,11 +44,11 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Зарплата начальника департамента
 		/// </summary>
-		public int Salary
-		{
-			get { return 500_000; }
-			set { Salary = value; }
-		}
+		//public int Salary
+		//{
+		//	get { return 500_000; }
+		//	set { Salary = value; }
+		//}
 
 		#endregion  // Properties
 
@@ -64,8 +64,7 @@ namespace OrganizationGUI.Classes
 					$"Имя рабочего: { Name } | " +
 					$"Фамилия рабочего: { LastName } | " +
 					$"Дата рождения рабочего: { BirthDate } | " +
-					$"Должность сотрудника: начальник департамента | " +
-					$"Зарплата сотрудника: { Salary } |";
+					$"Должность сотрудника: начальник департамента | ";
 		}
 
 		#endregion  // Methods
