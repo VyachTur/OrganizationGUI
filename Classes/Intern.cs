@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OrganizationGUI.Classes
 {
@@ -25,7 +23,7 @@ namespace OrganizationGUI.Classes
 		/// <param name="name">Имя</param>
 		/// <param name="lastName">Фамилия</param>
 		/// <param name="birthDate">Дата рождения</param>
-		/// <param name="salary">Зарплата</param>
+		/// <param name="salary">Зарплата в месяц</param>
 		public Intern(string name, string lastName, DateTime birthDate, int salary)
 		{
 			Name = name;

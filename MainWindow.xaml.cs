@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using OrganizationGUI.Classes;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -29,6 +17,7 @@ namespace OrganizationGUI
 
 			ObservableCollection<Organization> orgs;
 			orgs = returnAnyOrganization();
+
 			organizationTree.ItemsSource = orgs;
 			DataContext = orgs[0];
 		}
@@ -55,15 +44,15 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers1 = new ObservableCollection<Worker>();
 
 			workers1.Add(depBoss1);
-			workers1.Add(new Employee("Шарап", "Сишарпов", new DateTime(1974, 6, 17), "Главный программист", 160_000));
-			workers1.Add(new Employee("Иван", "Иванов", new DateTime(1975, 7, 18), "Программист", 110_000));
-			workers1.Add(new Employee("Василий", "Васильев", new DateTime(1976, 8, 19), "Программист", 110_000));
-			workers1.Add(new Employee("Петр", "Петров", new DateTime(1977, 9, 22), "Программист", 110_000));
-			workers1.Add(new Employee("Игорь", "Федоров", new DateTime(1978, 10, 24), "Системный администратор", 90_000));
-			workers1.Add(new Employee("Матвей", "Павлов", new DateTime(1979, 11, 26), "Инженер", 95_000));
-			workers1.Add(new Employee("Марина", "Маринина", new DateTime(1980, 12, 27), "Инженер", 95_000));
-			workers1.Add(new Intern("Игорь", "Новичков", new DateTime(1999, 10, 12), 45_000));
-			workers1.Add(new Intern("Иван", "Непонимающий", new DateTime(1996, 8, 16), 45_000));
+			workers1.Add(new Employee("Шарап", "Сишарпов", new DateTime(1974, 6, 17), "Главный программист", 1_000));
+			workers1.Add(new Employee("Иван", "Иванов", new DateTime(1975, 7, 18), "Программист", 800));
+			workers1.Add(new Employee("Василий", "Васильев", new DateTime(1976, 8, 19), "Программист", 800));
+			workers1.Add(new Employee("Петр", "Петров", new DateTime(1977, 9, 22), "Программист", 800));
+			workers1.Add(new Employee("Игорь", "Федоров", new DateTime(1978, 10, 24), "Системный администратор", 600));
+			workers1.Add(new Employee("Матвей", "Павлов", new DateTime(1979, 11, 26), "Инженер", 650));
+			workers1.Add(new Employee("Марина", "Маринина", new DateTime(1980, 12, 27), "Инженер", 650));
+			workers1.Add(new Intern("Игорь", "Новичков", new DateTime(1999, 10, 12), 50_000));
+			workers1.Add(new Intern("Иван", "Непонимающий", new DateTime(1996, 8, 16), 50_000));
 
 			// Создание департамента 1
 			Department departament1 = new Department("Департамент 1", depBoss1, workers1);
@@ -75,9 +64,9 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers11 = new ObservableCollection<Worker>();
 
 			workers11.Add(depBoss11);
-			workers11.Add(new Employee("Иван", "Иванов", new DateTime(1973, 5, 6), "Программист", 100_000));
-			workers11.Add(new Employee("Вячеслав", "Васильев", new DateTime(1974, 5, 7), "Системный администратор", 100_000));
-			workers11.Add(new Employee("Федор", "Федоров", new DateTime(1975, 5, 8), "Инженер", 90_000));
+			workers11.Add(new Employee("Иван", "Иванов", new DateTime(1973, 5, 6), "Программист", 750));
+			workers11.Add(new Employee("Вячеслав", "Васильев", new DateTime(1974, 5, 7), "Системный администратор", 550));
+			workers11.Add(new Employee("Федор", "Федоров", new DateTime(1975, 5, 8), "Инженер", 600));
 
 			// Создание департамента 11
 			Department departament11 = new Department("Департамент 11", depBoss11, workers11);
@@ -92,11 +81,11 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers12 = new ObservableCollection<Worker>();
 
 			workers12.Add(depBoss12);
-			workers12.Add(new Employee("Павел", "Плюсплюсов", new DateTime(1971, 1, 3), "Главный программист", 150_000));
-			workers12.Add(new Employee("Иван", "Иванов", new DateTime(1971, 1, 3), "Программист", 100_000));
-			workers12.Add(new Employee("Василий", "Васильев", new DateTime(1972, 4, 3), "Программист", 100_000));
-			workers12.Add(new Employee("Петр", "Петров", new DateTime(1973, 2, 3), "Системный администратор", 100_000));
-			workers12.Add(new Employee("Федор", "Федоров", new DateTime(1974, 3, 3), "Инженер", 90_000));
+			workers12.Add(new Employee("Павел", "Плюсплюсов", new DateTime(1971, 1, 3), "Главный программист", 900));
+			workers12.Add(new Employee("Иван", "Иванов", new DateTime(1971, 1, 3), "Программист", 750));
+			workers12.Add(new Employee("Василий", "Васильев", new DateTime(1972, 4, 3), "Программист", 750));
+			workers12.Add(new Employee("Петр", "Петров", new DateTime(1973, 2, 3), "Системный администратор", 550));
+			workers12.Add(new Employee("Федор", "Федоров", new DateTime(1974, 3, 3), "Инженер", 600));
 			workers12.Add(new Intern("Василий", "Ябсделал", new DateTime(2000, 2, 26), 40_000));
 
 			// Создание департамента 12
@@ -109,9 +98,9 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers121 = new ObservableCollection<Worker>();
 
 			workers121.Add(depBoss121);
-			workers121.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 2, 25), "Программист", 100_000));
-			workers121.Add(new Employee("Павел", "Петров", new DateTime(1972, 4, 28), "Системный администратор", 100_000));
-			workers121.Add(new Employee("Евгений", "Федоров", new DateTime(1972, 3, 30), "Инженер", 90_000));
+			workers121.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 2, 25), "Программист", 750));
+			workers121.Add(new Employee("Павел", "Петров", new DateTime(1972, 4, 28), "Системный администратор", 550));
+			workers121.Add(new Employee("Евгений", "Федоров", new DateTime(1972, 3, 30), "Инженер", 600));
 
 			// Создание департамента 121
 			Department departament121 = new Department("Департамент 121", depBoss121, workers121);
@@ -139,19 +128,19 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers2 = new ObservableCollection<Worker>();
 
 			workers2.Add(depBoss2);
-			workers2.Add(new Employee("Платон", "Питонов", new DateTime(1977, 09, 09), "Главный программист", 160_000));
-			workers2.Add(new Employee("Сергей", "Иванов", new DateTime(1978, 10, 09), "Программист", 110_000));
-			workers2.Add(new Employee("Евлампий", "Васильев", new DateTime(1979, 11, 09), "Программист", 110_000));
-			workers2.Add(new Employee("Галина", "Петрова", new DateTime(1980, 12, 15), "Программист", 110_000));
-			workers2.Add(new Employee("Юлия", "Юлина", new DateTime(1981, 09, 10), "Программист", 110_000));
-			workers2.Add(new Employee("Евгений", "Евгеньев", new DateTime(1982, 09, 18), "Программист", 110_000));
-			workers2.Add(new Employee("Федор", "Федоров", new DateTime(1983, 05, 12), "Системный администратор", 95_000));
-			workers2.Add(new Employee("Иван", "Сисадминский", new DateTime(1984, 06, 30), "Системный администратор", 95_000));
-			workers2.Add(new Employee("Владимир", "Владимиров", new DateTime(1985, 11, 21), "Инженер", 100_000));
-			workers2.Add(new Employee("Галина", "Галинина", new DateTime(1986, 10, 15), "Инженер", 100_000));
-			workers2.Add(new Intern("Егор", "Этокаковый", new DateTime(1995, 6, 5), 45_000));
-			workers2.Add(new Intern("Анна", "Немогущая", new DateTime(1994, 11, 2), 45_000));
-			workers2.Add(new Intern("Платон", "Почемучин", new DateTime(1994, 11, 2), 45_000));
+			workers2.Add(new Employee("Платон", "Питонов", new DateTime(1977, 09, 09), "Главный программист", 1_000));
+			workers2.Add(new Employee("Сергей", "Иванов", new DateTime(1978, 10, 09), "Программист", 800));
+			workers2.Add(new Employee("Евлампий", "Васильев", new DateTime(1979, 11, 09), "Программист", 800));
+			workers2.Add(new Employee("Галина", "Петрова", new DateTime(1980, 12, 15), "Программист", 800));
+			workers2.Add(new Employee("Юлия", "Юлина", new DateTime(1981, 09, 10), "Программист", 800));
+			workers2.Add(new Employee("Евгений", "Евгеньев", new DateTime(1982, 09, 18), "Программист", 800));
+			workers2.Add(new Employee("Федор", "Федоров", new DateTime(1983, 05, 12), "Системный администратор", 600));
+			workers2.Add(new Employee("Иван", "Сисадминский", new DateTime(1984, 06, 30), "Системный администратор", 600));
+			workers2.Add(new Employee("Владимир", "Владимиров", new DateTime(1985, 11, 21), "Инженер", 650));
+			workers2.Add(new Employee("Галина", "Галинина", new DateTime(1986, 10, 15), "Инженер", 650));
+			workers2.Add(new Intern("Егор", "Этокаковый", new DateTime(1995, 6, 5), 50_000));
+			workers2.Add(new Intern("Анна", "Немогущая", new DateTime(1994, 11, 2), 50_000));
+			workers2.Add(new Intern("Платон", "Почемучин", new DateTime(1994, 11, 2), 50_000));
 
 			// Создание департамента 2
 			Department departament2 = new Department("Департамент 2", depBoss2, workers2);
@@ -163,13 +152,13 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers21 = new ObservableCollection<Worker>();
 
 			workers21.Add(depBoss21);
-			workers21.Add(new Employee("Джон", "Джавин", new DateTime(1971, 01, 03), "Главный программист", 150_000));
-			workers21.Add(new Employee("Константин", "Иванов", new DateTime(1975, 07, 07), "Программист", 100_000));
-			workers21.Add(new Employee("Алексей", "Васильев", new DateTime(1976, 07, 08), "Программист", 100_000));
-			workers21.Add(new Employee("Петр", "Петров", new DateTime(1977, 07, 09), "Программист", 100_000));
-			workers21.Add(new Employee("Федор", "Федоров", new DateTime(1978, 07, 10), "Системный администратор", 90_000));
-			workers21.Add(new Employee("Евгения", "Евгенина", new DateTime(1968, 07, 11), "Инженер", 90_000));
-			workers21.Add(new Employee("Илона", "Давыдная", new DateTime(1975, 01, 16), "Инженер", 90_000));
+			workers21.Add(new Employee("Джон", "Джавин", new DateTime(1971, 01, 03), "Главный программист", 900));
+			workers21.Add(new Employee("Константин", "Иванов", new DateTime(1975, 07, 07), "Программист", 750));
+			workers21.Add(new Employee("Алексей", "Васильев", new DateTime(1976, 07, 08), "Программист", 750));
+			workers21.Add(new Employee("Петр", "Петров", new DateTime(1977, 07, 09), "Программист", 750));
+			workers21.Add(new Employee("Федор", "Федоров", new DateTime(1978, 07, 10), "Системный администратор", 550));
+			workers21.Add(new Employee("Евгения", "Евгенина", new DateTime(1968, 07, 11), "Инженер", 600));
+			workers21.Add(new Employee("Илона", "Давыдная", new DateTime(1975, 01, 16), "Инженер", 600));
 			workers21.Add(new Intern("Василиса", "Немудрая", new DateTime(1997, 09, 12), 40_000));
 
 			// Создание департамента 21
@@ -182,12 +171,12 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers211 = new ObservableCollection<Worker>();
 
 			workers211.Add(depBoss211);
-			workers211.Add(new Employee("Иван", "Иванов", new DateTime(1975, 01, 02), "Главный программист", 140_000));
-			workers211.Add(new Employee("Иван", "Иванов", new DateTime(1979, 08, 10), "Программист", 100_000));
-			workers211.Add(new Employee("Василий", "Васильев", new DateTime(1976, 02, 11), "Программист", 100_000));
-			workers211.Add(new Employee("Федор", "Петров", new DateTime(1977, 08, 12), "Системный администратор", 100_000));
-			workers211.Add(new Employee("Федор", "Федоров", new DateTime(1978, 09, 13), "Инженер", 90_000));
-			workers211.Add(new Employee("Петр", "Петров", new DateTime(1985, 12, 20), "Инженер", 90_000));
+			workers211.Add(new Employee("Иван", "Иванов", new DateTime(1975, 01, 02), "Главный программист", 900));
+			workers211.Add(new Employee("Иван", "Иванов", new DateTime(1979, 08, 10), "Программист", 750));
+			workers211.Add(new Employee("Василий", "Васильев", new DateTime(1976, 02, 11), "Программист", 750));
+			workers211.Add(new Employee("Федор", "Петров", new DateTime(1977, 08, 12), "Системный администратор", 550));
+			workers211.Add(new Employee("Федор", "Федоров", new DateTime(1978, 09, 13), "Инженер", 600));
+			workers211.Add(new Employee("Петр", "Петров", new DateTime(1985, 12, 20), "Инженер", 600));
 			workers211.Add(new Intern("Акакий", "Акаконов", new DateTime(1993, 11, 07), 40_000));
 
 			// Создание департамента 211
@@ -200,8 +189,8 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers2111 = new ObservableCollection<Worker>();
 
 			workers2111.Add(depBoss2111);
-			workers2111.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 02, 25), "Программист", 75_000));
-			workers2111.Add(new Employee("Павел", "Петров", new DateTime(1972, 04, 28), "Системный администратор", 65_000));
+			workers2111.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 02, 25), "Программист", 750));
+			workers2111.Add(new Employee("Павел", "Петров", new DateTime(1972, 04, 28), "Системный администратор", 550));
 			workers2111.Add(new Intern("Юлия", "Июльская", new DateTime(1995, 11, 17), 40_000));
 
 			// Создание департамента 2111
@@ -219,9 +208,9 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers212 = new ObservableCollection<Worker>();
 
 			workers212.Add(depBoss212);
-			workers212.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 02, 25), "Программист", 100_000));
-			workers212.Add(new Employee("Павел", "Петров", new DateTime(1972, 04, 28), "Системный администратор", 100_000));
-			workers212.Add(new Employee("Евгений", "Федоров", new DateTime(1972, 03, 30), "Инженер", 90_000));
+			workers212.Add(new Employee("Кирилл", "Иванов", new DateTime(1972, 02, 25), "Программист", 750));
+			workers212.Add(new Employee("Павел", "Петров", new DateTime(1972, 04, 28), "Системный администратор", 550));
+			workers212.Add(new Employee("Евгений", "Федоров", new DateTime(1972, 03, 30), "Инженер", 600));
 
 			// Создание департамента 212
 			Department departament212 = new Department("Департамент 212", depBoss212, workers212);
@@ -239,10 +228,10 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers22 = new ObservableCollection<Worker>();
 
 			workers22.Add(depBoss22);
-			workers22.Add(new Employee("Иван", "Иванов", new DateTime(1979, 08, 10), "Программист", 100_000));
-			workers22.Add(new Employee("Василий", "Васильев", new DateTime(1976, 02, 11), "Программист", 100_000));
-			workers22.Add(new Employee("Федор", "Петров", new DateTime(1977, 08, 12), "Системный администратор", 100_000));
-			workers22.Add(new Employee("Федор", "Федоров", new DateTime(1978, 09, 13), "Инженер", 90_000));
+			workers22.Add(new Employee("Иван", "Иванов", new DateTime(1979, 08, 10), "Программист", 750));
+			workers22.Add(new Employee("Василий", "Васильев", new DateTime(1976, 02, 11), "Программист", 750));
+			workers22.Add(new Employee("Федор", "Петров", new DateTime(1977, 08, 12), "Системный администратор", 550));
+			workers22.Add(new Employee("Федор", "Федоров", new DateTime(1978, 09, 13), "Инженер", 600));
 			workers22.Add(new Intern("Николай", "Недумающий", new DateTime(1998, 07, 02), 40_000));
 
 			// Создание департамента 22
@@ -258,7 +247,7 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers23 = new ObservableCollection<Worker>();
 
 			workers23.Add(depBoss23);
-			workers23.Add(new Employee("Иван", "Иванов", new DateTime(1971, 01, 03), "Программист", 100_000));
+			workers23.Add(new Employee("Иван", "Иванов", new DateTime(1971, 01, 03), "Программист", 750));
 			workers23.Add(new Intern("Роман", "Ждущий", new DateTime(1995, 10, 27), 40_000));
 
 			// Создание департамента 23
@@ -271,8 +260,8 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers231 = new ObservableCollection<Worker>();
 
 			workers231.Add(depBoss231);
-			workers231.Add(new Employee("Евстигней", "Старорусский", new DateTime(1958, 01, 01), "Программист", 75_000));
-			workers231.Add(new Employee("Артур", "Молодой", new DateTime(1957, 12, 31), "Системный администратор", 74_000));
+			workers231.Add(new Employee("Евстигней", "Старорусский", new DateTime(1958, 01, 01), "Программист", 750));
+			workers231.Add(new Employee("Артур", "Молодой", new DateTime(1957, 12, 31), "Системный администратор", 550));
 
 			// Создание департамента 231
 			Department departament231 = new Department("Департамент 231", depBoss231, workers231);
@@ -287,9 +276,9 @@ namespace OrganizationGUI
 			ObservableCollection<Worker> workers232 = new ObservableCollection<Worker>();
 
 			workers232.Add(depBoss232);
-			workers232.Add(new Employee("Анатолий", "Шарящий", new DateTime(1975, 01, 01), "Программист", 75_000));
-			workers232.Add(new Employee("Петр", "Вопрошающий", new DateTime(1969, 02, 02), "Программист", 70_000));
-			workers232.Add(new Employee("Иван", "Иванов", new DateTime(1995, 10, 19), "Системный администратор", 65_000));
+			workers232.Add(new Employee("Анатолий", "Шарящий", new DateTime(1975, 01, 01), "Программист", 750));
+			workers232.Add(new Employee("Петр", "Вопрошающий", new DateTime(1969, 02, 02), "Программист", 750));
+			workers232.Add(new Employee("Иван", "Иванов", new DateTime(1995, 10, 19), "Системный администратор", 550));
 
 			// Создание департамента 232
 			Department departament232 = new Department("Департамент 232", depBoss232, workers232);

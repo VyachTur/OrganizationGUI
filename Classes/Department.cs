@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace OrganizationGUI.Classes
 {
@@ -176,13 +173,17 @@ namespace OrganizationGUI.Classes
 
 
 		/// <summary>
-		/// Зарплата начальника департамента
+		/// Зарплата начальника департамента (15% от суммы зарплат всех подчиненных,
+		/// но не менее 160000 р.)
 		/// </summary>
-		public int LocalBossSalary
+		public double LocalBossSalary
 		{
 			get
 			{
-				return salaryLocalBoss();
+				double salary = salaryDepWorkers() * 0.15;
+				salary = Math.Round(salary);	// округляем до целых
+
+				return (salary < 160_000) ? 160_000 : salary;
 			}
 		}
 
@@ -212,27 +213,28 @@ namespace OrganizationGUI.Classes
 		}
 
 		/// <summary>
-		/// Возвращает сумму зарплат всех работников департамента (и его поддепартаментов)
+		/// Рекурсивный метод, расчет суммы зарплат всех работников департамента (и его поддепартаментов)
 		/// </summary>
-		/// <returns></returns>
-		private int salaryLocalBoss()
+		/// <returns>Сумма зарплат</returns>
+		public double salaryDepWorkers()
 		{
-			int indexDepartment = Departs.Count;	// количество поддепартаментов
+			int indexDepartment = Departs.Count;    // количество поддепартаментов
+			double sum = salarySumWorkers();
 
-			if (indexDepartment > 0)
+			for (int i = 0; i < indexDepartment; ++i)
 			{
-				return salarySumWorkers() + Departs[--indexDepartment].salaryLocalBoss();
-			} 
-			else
-			{
-				return salarySumWorkers();
+				// Зарплаты начальников поддепартаментов и остальных работников поддепартамента (рекурсия)
+				sum += Departs[i].LocalBossSalary + Departs[i].salaryDepWorkers();
 			}
+
+			return sum;
 		}
 
 		/// <summary>
-		/// Сумма зарплат всех работников департамента
+		/// Сумма зарплат всех работников текущего департамента
+		/// (вспомогательный метод для метода salaryDepWorkers())
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Сумма</returns>
 		private int salarySumWorkers()
 		{
 			int salarySum = 0;

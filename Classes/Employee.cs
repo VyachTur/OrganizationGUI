@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OrganizationGUI.Classes
 {
@@ -23,14 +21,14 @@ namespace OrganizationGUI.Classes
 		/// <param name="lastName">Фамилия сотрудника</param>
 		/// <param name="birthDate">Дата рождения</param>
 		/// <param name="namePost">Наименование должности</param>
-		/// <param name="salary">Зарплата</param>
+		/// <param name="salary">Зарплата в час</param>
 		public Employee(string name, string lastName, DateTime birthDate, string namePost, int salary)
 		{
 			Name = name;
 			LastName = lastName;
 			BirthDate = birthDate;
 			NamePost = namePost;
-			Salary = salary;
+			Salary = salary * 168;	// умножаем на 168 рабочих часов в месяце
 			Id = ++countEmp;
 		}
 
@@ -55,7 +53,7 @@ namespace OrganizationGUI.Classes
 		/// </summary>
 		public int Salary
 		{
-			get; 
+			get;
 			set;
 		}
 

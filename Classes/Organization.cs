@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace OrganizationGUI.Classes
 {
@@ -88,7 +86,57 @@ namespace OrganizationGUI.Classes
 			}
 		}
 
+
+		/// <summary>
+		/// Зарплата начальника организации (15% от суммы зарплат всех подчиненных,
+		/// но не менее 2000000 р.)
+		/// </summary>
+		public double DirSalary
+		{
+			get
+			{
+				// Зарплата начальника = (Зарплата всех сотрудников + Зарплата зам. начальника) * 0,15,
+				double sum = (sumSalaryAllWorkers() + AssociateDirSalary) * 0.15;
+				sum = Math.Round(sum); // округляем до целых
+
+				return (sum < 2_000_000) ? 2_000_000 : sum;
+			}
+			
+		}
+
+
+		/// <summary>
+		/// Зарплата зам. начальника организации (15% от суммы зарплат всех подчиненных, 
+		/// но не менее 1000000 р.)
+		/// </summary>
+		public double AssociateDirSalary
+		{
+			get
+			{
+				double sum = sumSalaryAllWorkers() * 0.15;
+				sum = Math.Round(sum); // округляем до целых
+
+				return (sum < 1_000_000) ? 1_000_000 : sum;
+			}
+		}
+
 		#endregion  // Properties
+
+		/// <summary>
+		/// Сумма зарплат всех работников (включая начальников департаментов)
+		/// </summary>
+		/// <returns>Сумма зарплат</returns>
+		private double sumSalaryAllWorkers()
+		{
+			double sum = 0;
+
+			foreach (var dep in Departs)
+			{
+				sum += dep.salaryDepWorkers() + dep.LocalBossSalary;
+			}
+
+			return sum;
+		}
 
 
 		#region Methods

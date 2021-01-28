@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OrganizationGUI.Classes
+﻿namespace OrganizationGUI.Classes
 {
 	/// <summary>
 	/// Должность

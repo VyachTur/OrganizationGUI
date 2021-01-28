@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OrganizationGUI.Classes
 {
 	/// <summary>
 	/// Класс директора (синглтон, т.к. директор в организации один)
 	/// </summary>
-	class Director : Worker, ISalary
+	class Director : Worker
 	{
 		#region Constructors
 
@@ -44,11 +42,11 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Зарплата директора
 		/// </summary>
-		public int Salary
-		{
-			get { return 1_000_000; }
-			set { Salary = value; }
-		}
+		//public int Salary
+		//{
+		//	get { return 1_000_000; }
+		//	set { Salary = value; }
+		//}
 
 		#endregion  // Properties
 
@@ -70,8 +68,7 @@ namespace OrganizationGUI.Classes
 			return $"| Идентификатор директора: { Id } | " +
 					$"Имя директора: { Name } | " +
 					$"Фамилия директора: { LastName } | " +
-					$"Дата рождения директора: { BirthDate } | " +
-					$"Зарплата директора: { Salary } |";
+					$"Дата рождения директора: { BirthDate } | ";
 		}
 
 		#endregion  // Methods

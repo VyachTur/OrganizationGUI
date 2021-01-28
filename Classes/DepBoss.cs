@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace OrganizationGUI.Classes
 {
 	/// <summary>
@@ -46,8 +43,8 @@ namespace OrganizationGUI.Classes
 		/// </summary>
 		//public int Salary
 		//{
-		//	get { return 500_000; }
-		//	set { Salary = value; }
+		//	get;
+		//	set;
 		//}
 
 		#endregion  // Properties
