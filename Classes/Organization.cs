@@ -370,8 +370,8 @@ namespace OrganizationGUI.Classes
 
 
 
-			
-			
+
+
 		//	//org.AddDepartament();
 
 		//	return org;

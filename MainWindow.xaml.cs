@@ -304,17 +304,6 @@ namespace OrganizationGUI
 			#endregion  // Департамент 2
 
 
-			#region Проверка синглтона
-
-			// Проверка синглтонов Director и AssociateDirector
-			//Director director1 = Director.getInstance("Олег1", "Важный1", 1_111_111);
-			//AssociateDirector assDirector1 = AssociateDirector.getInstance("Игорь1", "Секонд1", 555_555);
-			//Debug.WriteLine(director1);     // выведет инфу по director
-			//Debug.WriteLine(assDirector1);  // выведет инфу по assDirector
-
-			#endregion    // Проверка синглтона
-
-
 			// Создание организации
 			Organization organization = new Organization("Организация", director, assDirector);
 			organization.AddDepartament(departament1);
@@ -356,15 +345,48 @@ namespace OrganizationGUI
 		/// <param name="e"></param>
 		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
 		{
-			//OpenFileDialog openFileDialog = new OpenFileDialog();
-			//openFileDialog.Filter = "Xml file (*.xml)|*.xml";
-			//openFileDialog.InitialDirectory = @"c:\temp\";
 
-			//if (openFileDialog.ShowDialog() == true)
-			//{
-			//	(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
-			//									.xmlOrganizationSerializer(openFileDialog.FileName);
-			//}
+			if (!organizationTree.Items.IsEmpty)
+			{
+				var answer = MessageBox.Show("Структура организации не пуста! Вы уверены, что хотите перезаписать данные?",
+															"Загрузка", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+				if (answer == MessageBoxResult.Yes)
+				{
+					Debug.WriteLine("ПЕРЕЗАПИСЬ ТЕКУЩЕЙ СТРУКТУРЫ!");
+
+					//TODO: НЕОБХОДИМО ОЧИСТИТЬ ТЕКУЩУЮ СТРУКТУРУ ОРГАНИЗАЦИИ!!
+					(organizationTree.ItemsSource as ObservableCollection<Organization>).Clear();
+					//(organizationTree.ItemsSource as ObservableCollection<Organization>)[0].Dir = null;
+					//(organizationTree.ItemsSource as ObservableCollection<Organization>)[0].AssociateDir = null;
+					//(organizationTree.ItemsSource as ObservableCollection<Organization>)[0] = null;
+
+
+					Director director = Director.getInstance("Олег1", "Важный1", new DateTime(1962, 2, 2));
+					AssociateDirector assDirector = AssociateDirector.getInstance("Игорь1", "Чутьменееважный1", new DateTime(1963, 3, 3));
+
+					Organization org = new Organization("Организация1", director, assDirector);
+
+					ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
+					orgs.Add(org);
+
+					organizationTree.ItemsSource = orgs;
+					DataContext = orgs[0];
+
+
+					//OpenFileDialog openFileDialog = new OpenFileDialog();
+					//openFileDialog.Filter = "Xml file (*.xml)|*.xml";
+					//openFileDialog.InitialDirectory = @"c:\temp\";
+
+					//if (openFileDialog.ShowDialog() == true)
+					//{
+					//	(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
+					//									.xmlOrganizationSerializer(openFileDialog.FileName);
+					//}
+				}
+				
+
+			}
 
 		}
 	}
