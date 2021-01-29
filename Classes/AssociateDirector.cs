@@ -5,7 +5,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Заместитель директора организации (синглтон, т.к. зам один в организации)
 	/// </summary>
-	class AssociateDirector : Worker
+	public class AssociateDirector : Worker
 	{
 		#region Constructors
 
@@ -38,15 +38,6 @@ namespace OrganizationGUI.Classes
 		/// Идентификатор заместителя директора
 		/// </summary>
 		public override int Id { get; }
-
-		/// <summary>
-		/// Зарплата заместителя директора
-		/// </summary>
-		//public int Salary
-		//{
-		//	get { return 900_000; }
-		//	set { Salary = value; }
-		//}
 
 		#endregion  // Properties
 

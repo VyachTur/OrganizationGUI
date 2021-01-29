@@ -6,7 +6,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Департамент
 	/// </summary>
-	class Department
+	public class Department
 	{
 		#region Constructors
 
@@ -16,7 +16,8 @@ namespace OrganizationGUI.Classes
 		public Department()
 		{
 			Id = ++countDep;
-			Name = String.Empty;
+			workers = new ObservableCollection<Worker>();
+			departs = new ObservableCollection<Department>();
 		}
 
 		/// <summary>
@@ -25,13 +26,14 @@ namespace OrganizationGUI.Classes
 		/// <param name="name">Наименование департамента</param>
 		public Department(string name, DepBoss localBoss)
 		{
+			Id = ++countDep;
+
 			Name = name;
 			LocalBoss = localBoss;
 
 			workers = new ObservableCollection<Worker>();
 			departs = new ObservableCollection<Department>();
 
-			Id = ++countDep;
 		}
 
 		/// <summary>
@@ -41,12 +43,13 @@ namespace OrganizationGUI.Classes
 		/// <param name="workers">Работники департамента</param>
 		public Department(string name, DepBoss localBoss, ObservableCollection<Department> departs, ObservableCollection<Worker> workers)
 		{
+			Id = ++countDep;
+
 			Name = name;
 			LocalBoss = localBoss;
 			this.workers = workers;
 			this.departs = departs;
 
-			Id = ++countDep;
 		}
 
 		/// <summary>
@@ -194,7 +197,7 @@ namespace OrganizationGUI.Classes
 		{
 			get
 			{
-				return countDep;
+				return Departs.Count;
 			}
 		}
 

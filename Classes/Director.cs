@@ -5,7 +5,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Класс директора (синглтон, т.к. директор в организации один)
 	/// </summary>
-	class Director : Worker
+	public class Director : Worker
 	{
 		#region Constructors
 
@@ -38,15 +38,6 @@ namespace OrganizationGUI.Classes
 		/// Идентификатор директора
 		/// </summary>
 		public override int Id { get; }
-
-		/// <summary>
-		/// Зарплата директора
-		/// </summary>
-		//public int Salary
-		//{
-		//	get { return 1_000_000; }
-		//	set { Salary = value; }
-		//}
 
 		#endregion  // Properties
 

@@ -5,7 +5,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Интерн
 	/// </summary>
-	class Intern : Worker, ISalary
+	public class Intern : Worker, ISalary
 	{
 		#region Constructors
 

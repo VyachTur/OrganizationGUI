@@ -4,7 +4,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Начальник департамента
 	/// </summary>
-	class DepBoss : Worker
+	public class DepBoss : Worker
 	{
 		#region Constructors
 
@@ -36,16 +36,6 @@ namespace OrganizationGUI.Classes
 		/// Идентификатор рабочего
 		/// </summary>
 		public override int Id { get; }
-
-
-		/// <summary>
-		/// Зарплата начальника департамента
-		/// </summary>
-		//public int Salary
-		//{
-		//	get;
-		//	set;
-		//}
 
 		#endregion  // Properties
 

@@ -5,7 +5,7 @@ namespace OrganizationGUI.Classes
 	/// <summary>
 	/// Абстрактный класс работника
 	/// </summary>
-	abstract class Worker
+	public abstract class Worker
 	{
 		#region Properties
 

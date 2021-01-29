@@ -3,6 +3,7 @@ using System.Windows;
 using OrganizationGUI.Classes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace OrganizationGUI
 {
@@ -316,8 +317,8 @@ namespace OrganizationGUI
 
 			// Создание организации
 			Organization organization = new Organization("Организация", director, assDirector);
-			organization.AddDepatament(departament1);
-			organization.AddDepatament(departament2);
+			organization.AddDepartament(departament1);
+			organization.AddDepartament(departament2);
 
 			ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
 			orgs.Add(organization);
@@ -327,9 +328,44 @@ namespace OrganizationGUI
 
 		}
 
-		private void MenuItem_Click(object sender, RoutedEventArgs e)
+
+
+		/// <summary>
+		/// Выгрузка (сериализация) структуры организации (обработчик на нажатие меню "Выгрузить")
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemUnload_Click(object sender, RoutedEventArgs e)
 		{
-			(organizationTree.ItemsSource as ObservableCollection<Organization>)[0].xmlOrganizationSerializer(@"organization.xml") ;
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "Xml file (*.xml)|*.xml";
+			saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+
+			if (saveFileDialog.ShowDialog() == true)
+			{
+				(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
+												.xmlOrganizationSerializer(saveFileDialog.FileName);
+			}
+			
+		}
+
+		/// <summary>
+		/// Загрузка (десериализация) структуры организации (обработчик на нажатие меню "Загрузить")
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
+		{
+			//OpenFileDialog openFileDialog = new OpenFileDialog();
+			//openFileDialog.Filter = "Xml file (*.xml)|*.xml";
+			//openFileDialog.InitialDirectory = @"c:\temp\";
+
+			//if (openFileDialog.ShowDialog() == true)
+			//{
+			//	(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
+			//									.xmlOrganizationSerializer(openFileDialog.FileName);
+			//}
+
 		}
 	}
 }
