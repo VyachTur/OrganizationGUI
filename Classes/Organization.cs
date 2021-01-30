@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -103,7 +104,7 @@ namespace OrganizationGUI.Classes
 
 				return (sum < 2_000_000) ? 2_000_000 : sum;
 			}
-			
+
 		}
 
 
@@ -147,7 +148,7 @@ namespace OrganizationGUI.Classes
 		/// Добавление департамента в коллекцию департаментов
 		/// </summary>
 		/// <param name="dep">Департамент</param>
-		public void AddDepartament(Department dep)
+		public void addDepartament(Department dep)
 		{
 			departments.Add(dep);
 		}
@@ -167,14 +168,14 @@ namespace OrganizationGUI.Classes
 
 
 
-		#region XML        
+		#region XML Serialization
+
 		/// <summary>
 		/// Сериализует организацию (xml)
 		/// </summary>
 		/// /// <param name="path">Путь к файлу экспорта (xml)</param>
 		public void xmlOrganizationSerializer(string path)
 		{
-
 			XElement xeORGANIZATION = new XElement("ORGANIZATION");
 			XAttribute xaNAME_ORG = new XAttribute("orgname", this.Name);
 
@@ -188,10 +189,6 @@ namespace OrganizationGUI.Classes
 
 			// ДЕПАРТАМЕНТЫ ОРГАНИЗАЦИИ
 			XElement xeDEPARTMENTS = new XElement("DEPARTMENTS");
-
-			//////
-			///TODO: ПРИКРУТИТЬ РЕКУРСИЮ ДЛЯ СЕРИАЛИЗАЦИИ ВСЕХ ДЕПАРТАМЕНТОВ И ПОДДЕПАРТАМЕНТОВ
-			///
 
 			foreach (Department dep in Departs)
 			{
@@ -212,9 +209,8 @@ namespace OrganizationGUI.Classes
 		/// </summary>
 		/// <param name="dep">Департамент</param>
 		/// <returns>XML-узел</returns>
-		private XElement serializerSubDeps(Department dep)
+		private static XElement serializerSubDeps(Department dep)
 		{
-
 			XElement xeDEPARTMENT = new XElement("DEPARTMENT");
 
 			XAttribute xaNAME_DEP = new XAttribute("depname", dep.Name);
@@ -231,7 +227,7 @@ namespace OrganizationGUI.Classes
 
 				XAttribute xaNAME_EMP = new XAttribute("empname", emp.Name);
 				XAttribute xaLASTNAME_EMP = new XAttribute("emplastname", emp.LastName);
-				XAttribute xaBIRTHDATE_EMP = new XAttribute("empbirthdate", emp.BirthDate);
+				XAttribute xaBIRTHDATE_EMP = new XAttribute("empbirth", emp.BirthDate);
 				XAttribute xaPOST_EMP = new XAttribute("empnamepost", emp.NamePost);
 				XAttribute xaSALARY_EMP = new XAttribute("empsalary", emp.Salary / 168);
 
@@ -249,7 +245,7 @@ namespace OrganizationGUI.Classes
 
 				XAttribute xaNAME_INTERN = new XAttribute("internname", intern.Name);
 				XAttribute xaLASTNAME_INTERN = new XAttribute("internlastname", intern.LastName);
-				XAttribute xaBIRTHDATE_INTERN = new XAttribute("internbirthdate", intern.BirthDate);
+				XAttribute xaBIRTHDATE_INTERN = new XAttribute("internbirth", intern.BirthDate);
 				XAttribute xaSALARY_INTERN = new XAttribute("internsalary", intern.Salary);
 
 				xeINTERN.Add(xaSALARY_INTERN, xaBIRTHDATE_INTERN, xaLASTNAME_INTERN, xaNAME_INTERN);
@@ -281,114 +277,98 @@ namespace OrganizationGUI.Classes
 
 		}
 
+		#endregion // XML Serialization
+
+
+
+		#region XML Deserialization
 
 		/// <summary>
 		/// Десериализует организацию (xml)
 		/// </summary>
 		/// <param name="path">Путь к файлу импорта (xml)</param>
-		//public static Organization xmlOrganizationDeserializer(string path)
-		//{
+		/// <returns>Организация</returns>
+		public static Organization xmlOrganizationDeserializer(string path)
+		{
+			string xml = File.ReadAllText(path);
 
-		//	// ЗАГЛУШКА!
-		//	return new Organization();
+			Director dir = Director
+							.getInstance(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("dirname").Value,
+											XDocument.Parse(xml).Element("ORGANIZATION").Attribute("dirlastname").Value,
+											DateTime.Parse(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("dirbirth").Value));
 
-		//}
+			AssociateDirector assDir = AssociateDirector
+										.getInstance(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("assdirname").Value,
+														XDocument.Parse(xml).Element("ORGANIZATION").Attribute("assdirlastname").Value,
+														DateTime.Parse(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("assdirbirth").Value));
+
+			Organization org = new Organization(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("orgname").Value, dir, assDir);
 
 
+			var colDepsXml = XDocument.Parse(xml)
+								.Descendants("ORGANIZATION")
+								.Descendants("DEPARTMENTS")
+								.Descendants("DEPARTMENT")
+								.ToList();
+
+			// Цикл по департаментам в организации
+			foreach (var itemDepXml in colDepsXml)
+			{
+				Department dep = deserializerSubDeps(itemDepXml);
+
+
+				org.addDepartament(dep); // добавляем созданный отдел в организацию
+			}
+
+			return org;
+		}
 
 		/// <summary>
-		/// Десериализует организацию (xml)
+		/// Вспомогательный рекурсивный метод для десереализации департамента и его поддепартаментов
 		/// </summary>
-		/// <param name="path">Путь к файлу импорта (xml)</param>
-		//public static Organization xmlOrganizationDeserializer(string path)
-		//{
+		/// <param name="xeDep">XML-узел</param>
+		/// <returns>Департамент с поддепартаментами</returns>
+		private static Department deserializerSubDeps(XElement xeDep)
+		{
+			DepBoss depBoss = new DepBoss(xeDep.Attribute("depbossname").Value,
+											xeDep.Attribute("depbosslastname").Value,
+											DateTime.Parse(xeDep.Attribute("depbossbirth").Value));
 
-		//	string xml = File.ReadAllText(path);
+			ObservableCollection<Worker> workers = new ObservableCollection<Worker>();
 
-		//	Director dir = Director.getInstance();
-		//	AssociateDirector assDir = new AssociateDirector();
+			// Перебираем сотрудников и добавляем их в коллекцию workers
+			foreach (var itemEmpXml in xeDep.Element("EMPLOYEES").Elements())
+			{
+				workers.Add(new Employee(itemEmpXml.Attribute("empname").Value,
+											itemEmpXml.Attribute("emplastname").Value,
+											DateTime.Parse(itemEmpXml.Attribute("empbirth").Value),
+											itemEmpXml.Attribute("empnamepost").Value,
+											int.Parse(itemEmpXml.Attribute("empsalary").Value)));
+			}
 
-		//	Organization org = new Organization(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("orgname").Value, dir, assDir);
+			// Перебираем интернов и добавляем их в коллекцию workers
+			foreach (var itemEmpXml in xeDep.Element("INTERNS").Elements())
+			{
+				workers.Add(new Intern(itemEmpXml.Attribute("internname").Value,
+											itemEmpXml.Attribute("internlastname").Value,
+											DateTime.Parse(itemEmpXml.Attribute("internbirth").Value),
+											int.Parse(itemEmpXml.Attribute("internsalary").Value)));
+			}
 
+			Department dep = new Department(xeDep.Attribute("depname").Value, depBoss, workers);
 
-
-		//	tmpOrganization.Name = XDocument.Parse(xml)
-		//							.Element("ORGANIZATION")
-		//							.Attribute("orgname").Value;
-
-		//	tmpOrganization.Dir.Name = XDocument.Parse(xml)
-		//								.Element("ORGANIZATION")
-		//								.Attribute("dirname").Value
-
-		//	var colDepsXml = XDocument.Parse(xml)
-		//						.Descendants("ORGANIZATION")
-		//						.Descendants("DEPARTMENTS")
-		//						.Descendants("DEPARTMENT")
-		//						.ToList();
-
-		//	// Цикл по департаментам (отделам) в организации
-		//	foreach (var itemDepXml in colDepsXml)
-		//	{
-		//		Department dep = new Department(itemDepXml.Attribute("name").Value);
-
-		//		dep.CreateDate = DateTime.Parse(itemDepXml.Attribute("createdate").Value);
-
-		//		// Цикл по должностям в отделе
-		//		foreach (var itemPosXml in itemDepXml.Element("POSITIONS").Elements())
-		//		{
-		//			Position pos = new Position(itemPosXml.Attribute("name").Value,
-		//											uint.Parse(itemPosXml.Attribute("salary").Value));
-		//			dep.addPost(pos);
-		//		}
-
-		//		// Цикл по сотрудникам в отделе
-		//		foreach (var itemEmpXml in itemDepXml.Element("EMPLOYEES").Elements())
-		//		{
-		//			// Создание нового сотрудника
-		//			Employee emp = new Employee(itemEmpXml.Attribute("name").Value,
-		//										itemEmpXml.Attribute("family").Value,
-		//										itemEmpXml.Attribute("sirname").Value,
-		//										DateTime.Parse(itemEmpXml.Attribute("birthdate").Value),
-		//										dep.returnPosts().Find((item) => item.Name == itemEmpXml.Element("POSITION").Attribute("name").Value
-		//																			&& item.Salary == uint.Parse(itemEmpXml.Element("POSITION").Attribute("salary").Value)));
-
-		//			// Цикл по проектам сотрудника
-		//			foreach (var itemEmpProjXml in itemEmpXml.Element("PROJECTS").Elements())
-		//			{
-		//				emp.addProject(new Project(itemEmpProjXml.Attribute("name").Value,
-		//											DateTime.Parse(itemEmpProjXml.Attribute("datebegin").Value),
-		//											DateTime.Parse(itemEmpProjXml.Attribute("dateend").Value),
-		//											itemEmpProjXml.Attribute("description").Value));
-		//			}
+			return dep;
+		}
 
 
-		//			dep.addEmpl(emp);   // добавляем созданного сотрудника в отдел
-		//		}
-
-		//		tmpOrganization.addDepartment(dep); // добавляем созданный отдел в организацию
-		//	}
-
-
-
-
-
-		//	//org.AddDepartament();
-
-		//	return org;
-		//}
-
-
-
-		#endregion  // XML
+		#endregion  // XML Deserialization
 
 
 		#endregion  // Methods
 
 
-		#region Fields
 
 		private ObservableCollection<Department> departments;   // департаменты в организации
 
-		#endregion  // Fields
 	}
 }

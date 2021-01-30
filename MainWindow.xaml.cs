@@ -114,9 +114,9 @@ namespace OrganizationGUI
 
 
 			// Добавление поддепартаментов в департаменты
-			departament12.AddDepartament(departament121);
-			departament1.AddDepartament(departament11);
-			departament1.AddDepartament(departament12);
+			departament12.addDepartament(departament121);
+			departament1.addDepartament(departament11);
+			departament1.addDepartament(departament12);
 
 
 			#endregion   // Департамент 1
@@ -291,14 +291,14 @@ namespace OrganizationGUI
 
 
 			// Добавление поддепартаментов в департаменты
-			departament211.AddDepartament(departament2111);
-			departament21.AddDepartament(departament211);
-			departament21.AddDepartament(departament212);
-			departament23.AddDepartament(departament231);
-			departament23.AddDepartament(departament232);
-			departament2.AddDepartament(departament21);
-			departament2.AddDepartament(departament22);
-			departament2.AddDepartament(departament23);
+			departament211.addDepartament(departament2111);
+			departament21.addDepartament(departament211);
+			departament21.addDepartament(departament212);
+			departament23.addDepartament(departament231);
+			departament23.addDepartament(departament232);
+			departament2.addDepartament(departament21);
+			departament2.addDepartament(departament22);
+			departament2.addDepartament(departament23);
 
 
 			#endregion  // Департамент 2
@@ -306,8 +306,8 @@ namespace OrganizationGUI
 
 			// Создание организации
 			Organization organization = new Organization("Организация", director, assDirector);
-			organization.AddDepartament(departament1);
-			organization.AddDepartament(departament2);
+			organization.addDepartament(departament1);
+			organization.addDepartament(departament2);
 
 			ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
 			orgs.Add(organization);
@@ -335,7 +335,7 @@ namespace OrganizationGUI
 				(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
 												.xmlOrganizationSerializer(saveFileDialog.FileName);
 			}
-			
+
 		}
 
 		/// <summary>
@@ -345,47 +345,38 @@ namespace OrganizationGUI
 		/// <param name="e"></param>
 		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
 		{
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "Xml file (*.xml)|*.xml";
+			openFileDialog.InitialDirectory = @"c:\temp\";
 
-			if (!organizationTree.Items.IsEmpty)
+			if (openFileDialog.ShowDialog() == true)
 			{
-				var answer = MessageBox.Show("Структура организации не пуста! Вы уверены, что хотите перезаписать данные?",
-															"Загрузка", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-				if (answer == MessageBoxResult.Yes)
+				if (!organizationTree.Items.IsEmpty)
 				{
-					Debug.WriteLine("ПЕРЕЗАПИСЬ ТЕКУЩЕЙ СТРУКТУРЫ!");
+					var answer = MessageBox.Show("Структура организации не пуста! Вы уверены, что хотите перезаписать данные?",
+																"Загрузка", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-					//TODO: НЕОБХОДИМО ОЧИСТИТЬ ТЕКУЩУЮ СТРУКТУРУ ОРГАНИЗАЦИИ!!
-					(organizationTree.ItemsSource as ObservableCollection<Organization>).Clear();
-					//(organizationTree.ItemsSource as ObservableCollection<Organization>)[0].Dir = null;
-					//(organizationTree.ItemsSource as ObservableCollection<Organization>)[0].AssociateDir = null;
-					//(organizationTree.ItemsSource as ObservableCollection<Organization>)[0] = null;
+					if (answer == MessageBoxResult.No)
+					{
+						return;
+					}
+					else if (answer == MessageBoxResult.Yes)
+					{
+						Debug.WriteLine("ПЕРЕЗАПИСЬ ТЕКУЩЕЙ СТРУКТУРЫ!");
 
+						// Очищаем структуру
+						(organizationTree.ItemsSource as ObservableCollection<Organization>).Clear();
+					}
 
-					Director director = Director.getInstance("Олег1", "Важный1", new DateTime(1962, 2, 2));
-					AssociateDirector assDirector = AssociateDirector.getInstance("Игорь1", "Чутьменееважный1", new DateTime(1963, 3, 3));
-
-					Organization org = new Organization("Организация1", director, assDirector);
-
-					ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
-					orgs.Add(org);
-
-					organizationTree.ItemsSource = orgs;
-					DataContext = orgs[0];
-
-
-					//OpenFileDialog openFileDialog = new OpenFileDialog();
-					//openFileDialog.Filter = "Xml file (*.xml)|*.xml";
-					//openFileDialog.InitialDirectory = @"c:\temp\";
-
-					//if (openFileDialog.ShowDialog() == true)
-					//{
-					//	(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
-					//									.xmlOrganizationSerializer(openFileDialog.FileName);
-					//}
 				}
-				
 
+				Organization org = Organization.xmlOrganizationDeserializer(openFileDialog.FileName);
+
+				ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
+				orgs.Add(org);
+
+				organizationTree.ItemsSource = orgs;
+				DataContext = orgs[0];
 			}
 
 		}

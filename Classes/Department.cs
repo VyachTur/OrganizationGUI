@@ -210,7 +210,7 @@ namespace OrganizationGUI.Classes
 		/// Добавление департамента в коллекцию поддепартаментов
 		/// </summary>
 		/// <param name="dep">Департамент</param>
-		public void AddDepartament(Department dep)
+		public void addDepartament(Department dep)
 		{
 			departs.Add(dep);
 		}
