@@ -37,8 +37,6 @@ namespace OrganizationGUI
 
 
 
-
-
 		/// <summary>
 		/// Выгрузка (сериализация) структуры организации (обработчик на нажатие меню "Выгрузить")
 		/// </summary>
@@ -107,13 +105,24 @@ namespace OrganizationGUI
 		}
 
 
-
-
-
 		/// <summary>
-		/// Наполнение структуры организации (департаментами и сотрудниками)
+		/// Выход из программы
 		/// </summary>
-		private ObservableCollection<Organization> returnAnyOrganization()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemExit_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+
+
+
+
+
+			/// <summary>
+			/// Наполнение структуры организации (департаментами и сотрудниками)
+			/// </summary>
+			private ObservableCollection<Organization> returnAnyOrganization()
 		{
 
 			Director director = Director.getInstance("Олег", "Важный", new DateTime(1961, 1, 1));
