@@ -9,6 +9,14 @@ namespace OrganizationGUI
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
+	/// 
+	/// Программа реализует структуру Организации и представляет ее
+	/// в графическом интерфейсе с использованием WPF.
+	/// В директории с программой находится файл organization.xml с данными об
+	/// организации "Организация", который можно загрузить,
+	/// выполнив Файл -> Загрузить, и выбрав данный xml-файл.
+	/// Также можно произвести выгрузку данных организации в xml-файл, выполнив
+	/// Файл -> Выгрузить.
 	/// </summary>
 	public partial class MainWindow : Window
 	{
@@ -16,13 +24,87 @@ namespace OrganizationGUI
 		{
 			InitializeComponent();
 
-			ObservableCollection<Organization> orgs;
-			orgs = returnAnyOrganization();
+			#region Наполнение структуры организации из кода
 
-			organizationTree.ItemsSource = orgs;
-			DataContext = orgs[0];
+			//ObservableCollection<Organization> orgs;
+			//orgs = returnAnyOrganization();
+
+			//organizationTree.ItemsSource = orgs;
+			//DataContext = orgs[0];
+
+			#endregion    // Наполнение структуры организации из кода
 		}
 
+
+
+
+
+		/// <summary>
+		/// Выгрузка (сериализация) структуры организации (обработчик на нажатие меню "Выгрузить")
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemUnload_Click(object sender, RoutedEventArgs e)
+		{
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "Xml file (*.xml)|*.xml";
+			saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+
+			if (saveFileDialog.ShowDialog() == true)
+			{
+				// Если организация существует, то выгружаем данные
+				if (organizationTree.ItemsSource != null)
+				{
+					(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
+																	.xmlOrganizationSerializer(saveFileDialog.FileName);
+				}
+			}
+
+		}
+
+		/// <summary>
+		/// Загрузка (десериализация) структуры организации (обработчик на нажатие меню "Загрузить")
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
+		{
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "Xml file (*.xml)|*.xml";
+			openFileDialog.InitialDirectory = @"c:\temp\";
+
+			if (openFileDialog.ShowDialog() == true)
+			{
+				// Если организация существует, то спрашиваем о дальнейшей загрузке новой
+				if (!organizationTree.Items.IsEmpty)
+				{
+					var answer = MessageBox.Show("Структура организации не пуста! Вы уверены, что хотите перезаписать данные?",
+																"Загрузка", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+					if (answer == MessageBoxResult.No)
+					{
+						return;
+					}
+					else if (answer == MessageBoxResult.Yes)
+					{
+						Debug.WriteLine("ПЕРЕЗАПИСЬ ТЕКУЩЕЙ СТРУКТУРЫ!");
+
+						// Очищаем структуру
+						(organizationTree.ItemsSource as ObservableCollection<Organization>).Clear();
+					}
+
+				}
+
+				Organization org = Organization.xmlOrganizationDeserializer(openFileDialog.FileName);
+
+				ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
+				orgs.Add(org);
+
+				organizationTree.ItemsSource = orgs;
+				DataContext = orgs[0];
+			}
+
+		}
 
 
 
@@ -317,68 +399,5 @@ namespace OrganizationGUI
 
 		}
 
-
-
-		/// <summary>
-		/// Выгрузка (сериализация) структуры организации (обработчик на нажатие меню "Выгрузить")
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MenuItemUnload_Click(object sender, RoutedEventArgs e)
-		{
-			SaveFileDialog saveFileDialog = new SaveFileDialog();
-			saveFileDialog.Filter = "Xml file (*.xml)|*.xml";
-			saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
-
-			if (saveFileDialog.ShowDialog() == true)
-			{
-				(organizationTree.ItemsSource as ObservableCollection<Organization>)[0]
-												.xmlOrganizationSerializer(saveFileDialog.FileName);
-			}
-
-		}
-
-		/// <summary>
-		/// Загрузка (десериализация) структуры организации (обработчик на нажатие меню "Загрузить")
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
-		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Xml file (*.xml)|*.xml";
-			openFileDialog.InitialDirectory = @"c:\temp\";
-
-			if (openFileDialog.ShowDialog() == true)
-			{
-				if (!organizationTree.Items.IsEmpty)
-				{
-					var answer = MessageBox.Show("Структура организации не пуста! Вы уверены, что хотите перезаписать данные?",
-																"Загрузка", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-					if (answer == MessageBoxResult.No)
-					{
-						return;
-					}
-					else if (answer == MessageBoxResult.Yes)
-					{
-						Debug.WriteLine("ПЕРЕЗАПИСЬ ТЕКУЩЕЙ СТРУКТУРЫ!");
-
-						// Очищаем структуру
-						(organizationTree.ItemsSource as ObservableCollection<Organization>).Clear();
-					}
-
-				}
-
-				Organization org = Organization.xmlOrganizationDeserializer(openFileDialog.FileName);
-
-				ObservableCollection<Organization> orgs = new ObservableCollection<Organization>();
-				orgs.Add(org);
-
-				organizationTree.ItemsSource = orgs;
-				DataContext = orgs[0];
-			}
-
-		}
 	}
 }

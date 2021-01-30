@@ -68,7 +68,7 @@ namespace OrganizationGUI.Classes
 		public Department(string name, DepBoss localBoss, ObservableCollection<Worker> workers)
 			: this(name, localBoss, new ObservableCollection<Department>(), workers) { }
 
-		
+
 
 		#endregion // Constructors
 
@@ -184,7 +184,7 @@ namespace OrganizationGUI.Classes
 			get
 			{
 				double salary = salaryDepWorkers() * 0.15;
-				salary = Math.Round(salary);	// округляем до целых
+				salary = Math.Round(salary);    // округляем до целых
 
 				return (salary < 160_000) ? 160_000 : salary;
 			}
@@ -249,7 +249,6 @@ namespace OrganizationGUI.Classes
 
 			return salarySum;
 		}
-
 
 
 		/// <summary>

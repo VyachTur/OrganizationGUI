@@ -3,7 +3,7 @@
 namespace OrganizationGUI.Classes
 {
 	/// <summary>
-	/// Рабочий
+	/// Рабочий (сотрудник)
 	/// </summary>
 	public class Employee : Worker, IPost, ISalary
 	{
@@ -28,7 +28,7 @@ namespace OrganizationGUI.Classes
 			LastName = lastName;
 			BirthDate = birthDate;
 			NamePost = namePost;
-			Salary = salary * 168;	// умножаем на 168 рабочих часов в месяце
+			Salary = salary * 168;  // умножаем на 168 рабочих часов в месяце
 			Id = ++countEmp;
 		}
 
@@ -51,11 +51,7 @@ namespace OrganizationGUI.Classes
 		/// <summary>
 		/// Зарплата сотрудника
 		/// </summary>
-		public int Salary
-		{
-			get;
-			set;
-		}
+		public int Salary { get; set; }
 
 		#endregion  // Properties
 

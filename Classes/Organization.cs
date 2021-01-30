@@ -264,7 +264,7 @@ namespace OrganizationGUI.Classes
 
 				foreach (Department department in dep.Departs)
 				{
-					XElement xeDEP = serializerSubDeps(department);
+					XElement xeDEP = serializerSubDeps(department);	// рекурсия
 
 					xeSUBDEPARTMENTS.Add(xeDEP);
 				}
@@ -304,11 +304,10 @@ namespace OrganizationGUI.Classes
 
 			Organization org = new Organization(XDocument.Parse(xml).Element("ORGANIZATION").Attribute("orgname").Value, dir, assDir);
 
-
 			var colDepsXml = XDocument.Parse(xml)
-								.Descendants("ORGANIZATION")
-								.Descendants("DEPARTMENTS")
-								.Descendants("DEPARTMENT")
+								.Element("ORGANIZATION")
+								.Element("DEPARTMENTS")
+								.Elements("DEPARTMENT")
 								.ToList();
 
 			// Цикл по департаментам в организации
@@ -357,9 +356,17 @@ namespace OrganizationGUI.Classes
 
 			Department dep = new Department(xeDep.Attribute("depname").Value, depBoss, workers);
 
+			if (xeDep.Element("DEPARTMENTS") != null)
+			{
+				foreach (var itemSubdepXml in xeDep.Element("DEPARTMENTS").Elements("DEPARTMENT").ToList())
+				{
+					// ПОДДЕПАРТАМЕНТЫ ДЕПАРТАМЕНТА
+					dep.addDepartament(deserializerSubDeps(itemSubdepXml));	// рекурсия
+				}
+			}
+
 			return dep;
 		}
-
 
 		#endregion  // XML Deserialization
 
